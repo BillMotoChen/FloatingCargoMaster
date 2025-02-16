@@ -1,0 +1,23 @@
+# ninja log v5
+786	844	1739198625486549885	/Users/chenbenyuan/Unity/FloatingCargoMaster/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/2s5n1z5n/obj/armeabi-v7a/libgame.so	c77a414062985aeb
+0	786	1739198625429979663	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	e19034831e9ac812
+2	746	1739198625390328615	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	958b2d58609baa37
+2	608	1739198625252046286	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	772c9e0da71cc526
+2	573	1739198625217301890	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	fb7fdf28a32788ca
+2	517	1739198625154970762	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	c73aa6389a724996
+1	550	1739198625192879008	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	222a3ca4b4179fd5
+1	516	1739198625158027737	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	3c7e5fb921cc379e
+1	651	1739198625294058679	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	c37dd630c4f7e18b
+148	252	1739198624891699425	/Users/chenbenyuan/Unity/FloatingCargoMaster/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/2s5n1z5n/obj/armeabi-v7a/libswappywrapper.so	af4873be03e481b5
+3	148	1739198624791565259	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	241cf65bc81a2642
+3	147	1739250209966690830	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	241cf65bc81a2642
+147	281	1739250210085460356	/Users/chenbenyuan/Unity/FloatingCargoMaster/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/2s5n1z5n/obj/armeabi-v7a/libswappywrapper.so	af4873be03e481b5
+2	500	1739250210318352237	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	c73aa6389a724996
+1	531	1739250210349838387	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	222a3ca4b4179fd5
+2	538	1739250210355172274	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	3c7e5fb921cc379e
+3	552	1739250210372148111	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	fb7fdf28a32788ca
+3	591	1739250210411501507	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	772c9e0da71cc526
+2	622	1739250210442829863	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	c37dd630c4f7e18b
+2	699	1739250210520049472	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	958b2d58609baa37
+1	768	1739250210588405284	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	e19034831e9ac812
+768	827	1739250210644804017	/Users/chenbenyuan/Unity/FloatingCargoMaster/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/2s5n1z5n/obj/armeabi-v7a/libgame.so	c77a414062985aeb

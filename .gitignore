@@ -1,0 +1,50 @@
+# =============== #
+# Unity Generated #
+# =============== #
+
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+
+# Avoid uploading local Unity cache data
+MemoryCaptures/
+
+# ============ #
+# Visual Studio #
+# ============ #
+
+.vs/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+
+# Rider project files
+.idea/
+*.sln.iml
+
+# ============= #
+# OS-Specific #
+# ============= #
+
+.DS_Store
+Thumbs.db
+
+# ============ #
+# Misc #
+# ============ #
+
+*.apk
+*.unitypackage
+*.app
+*.log
