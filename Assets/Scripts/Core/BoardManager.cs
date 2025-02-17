@@ -31,7 +31,6 @@ public class BoardManager : MonoBehaviour
     private void Start()
     {
         LevelLoader.Instance.LoadLevel(1);
-        PrintCurrentLevelData();
         pathData = LoadPathData();
         InitializeBoard();
         DefinePaths();
@@ -246,20 +245,15 @@ public class BoardManager : MonoBehaviour
         PathData data = new PathData();
 
         LevelData currentLevel = LevelLoader.Instance.GetCurrentLevel();
+        CycleData currentCycle = LevelLoader.Instance.CurrentLevelCycle;
         if (currentLevel == null)
         {
             Debug.LogError("❌ No level is currently loaded!");
             return data;
         }
 
-        if (currentLevel.cycles == null || currentLevel.cycles.Count == 0)
-        {
-            Debug.LogWarning("⚠️ No cycles found in the current level!");
-            return data;
-        }
-
         // Loop through each cycle and add paths
-        foreach (var cycleWrapper in currentLevel.cycles)
+        foreach (var cycleWrapper in currentCycle.cycles)
         {
             if (cycleWrapper == null || cycleWrapper.points == null || cycleWrapper.points.Count == 0)
             {
@@ -280,46 +274,5 @@ public class BoardManager : MonoBehaviour
 
         Debug.Log("✅ PathData loaded from level cycles");
         return data;
-    }
-
-    // FOR TEST
-    public void PrintCurrentLevelData()
-    {
-        LevelData currentLevel = LevelLoader.Instance.GetCurrentLevel();
-
-        if (currentLevel == null)
-        {
-            Debug.LogError("❌ No level is currently loaded!");
-            return;
-        }
-
-        Debug.Log("📌 --- Level Data ---");
-        Debug.Log($"🔹 Level: {currentLevel.level}");
-        Debug.Log($"📏 Board Size: {currentLevel.boardWidth} x {currentLevel.boardHeight}");
-        Debug.Log($"🎮 Game Mode: {currentLevel.gameMode}");
-        Debug.Log($"🎨 Color: {currentLevel.color}");
-        Debug.Log($"📦 Special Cargo: {string.Join(", ", currentLevel.specialCargo)}");
-        Debug.Log($"🎯 Required Sets: {string.Join(", ", currentLevel.requiredSets)}");
-
-        // Print Cycles
-        Debug.Log(JsonUtility.ToJson(currentLevel, true));
-        Debug.Log("🔄 Cycles:");
-        for (int i = 0; i < currentLevel.cycles.Count; i++)
-        {
-            if (currentLevel.cycles[i] == null || currentLevel.cycles[i].points == null)
-            {
-                Debug.LogWarning($"⚠️ Cycle {i + 1} is null or has no points!");
-                continue;
-            }
-
-            string cycleStr = $"Cycle {i + 1}: ";
-            foreach (var point in currentLevel.cycles[i].points)
-            {
-                cycleStr += $"[{point.x},{point.y}] "; // ✅ Use `point.x` and `point.y`
-            }
-            Debug.Log(cycleStr);
-        }
-
-        Debug.Log("✅ Level Data Printed Successfully!");
     }
 }

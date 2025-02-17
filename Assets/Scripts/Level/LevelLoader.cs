@@ -6,8 +6,10 @@ public class LevelLoader : MonoBehaviour
 {
     public static LevelLoader Instance { get; private set; }
     private LevelDataList levelDataList;
+    private CycleDataList cycleDataList;
     private bool isDataLoaded = false;
     public LevelData CurrentLevel { get; private set; } // Stores the currently loaded level
+    public CycleData CurrentLevelCycle { get; private set; }
 
     void Awake()
     {
@@ -28,19 +30,17 @@ public class LevelLoader : MonoBehaviour
     /// </summary>
     private void LoadLevelData()
     {
-        TextAsset jsonFile = Resources.Load<TextAsset>("LevelData/levels");
+        TextAsset levelJsonFile = Resources.Load<TextAsset>("LevelData/levels");
+        TextAsset pathJsonFile = Resources.Load<TextAsset>("LevelData/path");
 
-        if (jsonFile == null)
-        {
-            Debug.LogError("❌ Failed to load levels.json from Resources/LevelData/");
-            return;
-        }
+        if (levelJsonFile == null || pathJsonFile == null) return;
+       
+        string levelJsonText = levelJsonFile.text;
+        string pathJsonText = pathJsonFile.text;
 
-        string jsonText = jsonFile.text;
-        levelDataList = JsonUtility.FromJson<LevelDataList>(jsonText);
+        levelDataList = JsonUtility.FromJson<LevelDataList>(levelJsonText);
+        cycleDataList = JsonUtility.FromJson<CycleDataList>(pathJsonText);
         isDataLoaded = true;
-
-        Debug.Log("✅ levels.json loaded successfully from Resources/LevelData/");
     }
 
     /// <summary>
@@ -65,7 +65,14 @@ public class LevelLoader : MonoBehaviour
             if (level.level == levelNumber)
             {
                 CurrentLevel = level;
-                Debug.Log($"🎮 Loaded Level {levelNumber}");
+                foreach (var cycle in cycleDataList.cycles)
+                {
+                    if (cycle.id == level.cycleId)
+                    {
+                        CurrentLevelCycle = cycle;
+                        break;
+                    }
+                }
                 return true;
             }
         }
@@ -84,5 +91,14 @@ public class LevelLoader : MonoBehaviour
             Debug.LogError("❌ No level is currently loaded!");
         }
         return CurrentLevel;
+    }
+
+    public CycleData GetCurrentLevelCycles(string cycleId)
+    {
+        if (CurrentLevelCycle == null)
+        {
+            Debug.LogError("❌ No cycle is currently loaded!");
+        }
+        return CurrentLevelCycle;
     }
 }
