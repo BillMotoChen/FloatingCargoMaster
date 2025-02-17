@@ -3,12 +3,6 @@ using System.IO;
 using UnityEngine;
 
 [System.Serializable]
-public class CycleWrapper
-{
-    public List<Vector2Int> points = new List<Vector2Int>();
-}
-
-[System.Serializable]
 public class LevelData
 {
     public int level;
@@ -19,5 +13,5 @@ public class LevelData
     public int color;
     public List<int> specialCargo;
     public List<int> requiredSets;
-    public List<CycleWrapper> cycles = new List<CycleWrapper>();
+    public string cycleId;
 }
