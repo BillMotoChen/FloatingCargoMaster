@@ -4,6 +4,9 @@
             "level": 1,
             "boardWidth": 4,
             "boardHeight": 3,
+            "exporters": [
+                { "cor": { "x": 0, "y": 2 } },
+                { "cor": { "x": 3, "y": 2 } }            ],
             "tutorial": true,
             "gameMode": 1,
             "color": 1,
