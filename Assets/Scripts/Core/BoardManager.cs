@@ -14,11 +14,8 @@ public class BoardManager : MonoBehaviour
     public Transform boardContainer; // 存放 board 的父物件
     public Transform exporterContainer;
     public GridCell[,] gridCells; // 存放所有的格子
-    public GameObject[] exporters; // 存放出貨口
     public List<CargoBase> cargos = new List<CargoBase>();
     public List<CargoMover> cargoMovers = new List<CargoMover>(); // 存放所有貨物的移動腳本
-    public List<SpawnPoint> spawnPoints;
-
     public bool isMoving { get; private set; } = false;
 
     public PathData pathData;
@@ -26,7 +23,11 @@ public class BoardManager : MonoBehaviour
     public float marginRatio = 0.05f; // Board 與螢幕邊緣的空白比例 (5%)
     public float cellSpacingRatio = 0.25f; // 格子之間的間距比例 (25%)
 
-    private void Awake()
+    private LevelData currentLevel;
+    private List<Vector2Int> exporterPositions = new List<Vector2Int>();
+    private List<Exporter> exporters;
+
+private void Awake()
     {
         Instance = this;
     }
@@ -34,17 +35,16 @@ public class BoardManager : MonoBehaviour
     private void Start()
     {
         LevelLoader.Instance.LoadLevel(1);
+        currentLevel = LevelLoader.Instance.GetCurrentLevel();
         pathData = LoadPathData();
+        exporters = LevelLoader.Instance.GetCurrentLevel().exporters;
+        foreach (Exporter e in exporters)
+        {
+            exporterPositions.Add(e.cor);
+        }
         InitializeBoard();
         DefinePaths();
-        CreateExporters();
         SpawnAfterMove();
-        //SpawnCargoAt(new Vector2Int(0, 0), cargoPrefab);
-        //SpawnCargoAt(new Vector2Int(1, 0), cargoPrefab);
-        //SpawnCargoAt(new Vector2Int(2, 0), cargoPrefab);
-        //SpawnCargoAt(new Vector2Int(3, 1), cargoPrefab);
-        //SpawnCargoAt(new Vector2Int(2, 1), cargoPrefab);
-
     }
 
     private void Update()
@@ -66,7 +66,7 @@ public class BoardManager : MonoBehaviour
 
         // 設定 Board 的 Y 軸範圍 (佔畫面 30%，從 21% 開始)
         float boardHeight = screenHeight * 0.3f;
-        float boardStartY = screenHeight * 0.46f;
+        float boardStartY = screenHeight * 0.56f;
 
         // 轉換螢幕座標為世界座標
         Vector3 worldTop = Camera.main.ScreenToWorldPoint(new Vector3(screenWidth / 2, boardStartY + boardHeight, 0));
@@ -95,12 +95,21 @@ public class BoardManager : MonoBehaviour
         // 計算 Board 置中
         float boardStartX = -((width - 1) / 2.0f) * (cellSize + cellSpacing);
 
+        // 取得exporter座標
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
             {
-                // 生成 GridCell 的物件
-                GameObject cellObj = Instantiate(gridPrefab, boardContainer);
+                Vector2Int cellPos = new Vector2Int(x, y);
+                GameObject cellObj;
+                if (exporterPositions.Contains(cellPos))
+                {
+                    cellObj = Instantiate(exporterPrefab, boardContainer); // ✅ Use exporterPrefab
+                }
+                else
+                {
+                    cellObj = Instantiate(gridPrefab, boardContainer); // ✅ Use gridPrefab
+                }
                 cellObj.transform.position = new Vector3(
                     boardStartX + x * (cellSize + cellSpacing),
                     worldBottom.y + margin + y * (cellSize + cellSpacing),
@@ -123,33 +132,6 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    private void CreateExporters()
-    {
-        if (width < 2) return; // 確保至少有兩個格子，才能有左右出貨口
-
-        exporters = new GameObject[2]; // 兩個出貨口
-
-        float cellSize = gridCells[0, 0].cellObject.transform.localScale.x; // 取得格子大小
-        float cellSpacing = cellSize * cellSpacingRatio; // 取得間距大小
-
-        // 找到最左邊和最右邊的 `GridCell`（最上面一排）
-        Vector3 leftGridPos = gridCells[0, height - 1].cellObject.transform.position;
-        Vector3 rightGridPos = gridCells[width - 1, height - 1].cellObject.transform.position;
-
-        // 設定出貨口的高度（放在 GridCell 上方）
-        float exporterY = leftGridPos.y + (cellSize + cellSpacing);
-
-        // 生成左側出貨口
-        exporters[0] = Instantiate(exporterPrefab, exporterContainer);
-        exporters[0].transform.position = new Vector3(leftGridPos.x, exporterY, 0);
-        exporters[0].transform.localScale = Vector3.one * (cellSize * 0.8f); // 讓出貨口稍微小一點
-
-        // 生成右側出貨口
-        exporters[1] = Instantiate(exporterPrefab, exporterContainer);
-        exporters[1].transform.position = new Vector3(rightGridPos.x, exporterY, 0);
-        exporters[1].transform.localScale = Vector3.one * (cellSize * 0.8f);
-    }
-
     public Vector3 GetGridWorldPosition(Vector2Int position)
     {
         if (position.x < 0 || position.x >= width || position.y < 0 || position.y >= height)
@@ -157,18 +139,6 @@ public class BoardManager : MonoBehaviour
 
         return gridCells[position.x, position.y].cellObject.transform.position;
     }
-
-    //private void MoveAllCargos()
-    //{
-    //    foreach (CargoBase cargo in cargos)
-    //    {
-    //        if (cargo != null)
-    //        {
-    //            StartCoroutine(MoveAndContinue(cargo));
-    //        }
-    //    }
-    //    SpawnAfterMove();
-    //}
 
     private IEnumerator MoveAllCargos()
     {
@@ -231,19 +201,13 @@ public class BoardManager : MonoBehaviour
 
     public void SpawnAfterMove()
     {
-        Vector2Int[] spawnPoints = new Vector2Int[]
-        {
-            new Vector2Int(0, height-1),
-            new Vector2Int(width-1, height-1)
-        };
-        foreach (Vector2Int v in spawnPoints)
+        foreach (Vector2Int v in exporterPositions)
         {
             if (!gridCells[v.x, v.y].HasCargo())
             {
                 SpawnCargoAt(v, cargoPrefab);
             }
-        }
-        
+        }  
     } 
 
     private void MoveCargo(Vector2Int from, Vector2Int to)
@@ -283,10 +247,7 @@ public class BoardManager : MonoBehaviour
 
     private PathData LoadPathData()
     {
-        //    data.AddPath(new Vector2Int(0, 1), new Vector2Int(0, 0));
         PathData data = new PathData();
-
-        LevelData currentLevel = LevelLoader.Instance.GetCurrentLevel();
         CycleData currentCycle = LevelLoader.Instance.CurrentLevelCycle;
         if (currentLevel == null)
         {
