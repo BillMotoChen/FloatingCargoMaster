@@ -6,6 +6,7 @@ public class BoardManager : MonoBehaviour
 {
     public static BoardManager Instance;
 
+    [Header("Board")]
     public int width, height; // Board 大小
     public GameObject gridPrefab; // GridCell 的 prefab
     public GameObject exporterPrefab; // 出貨口的 prefab
@@ -17,6 +18,8 @@ public class BoardManager : MonoBehaviour
     public List<CargoBase> cargos = new List<CargoBase>();
     public List<CargoMover> cargoMovers = new List<CargoMover>(); // 存放所有貨物的移動腳本
     public List<SpawnPoint> spawnPoints;
+
+    public bool isMoving { get; private set; } = false;
 
     public PathData pathData;
 
@@ -35,24 +38,21 @@ public class BoardManager : MonoBehaviour
         InitializeBoard();
         DefinePaths();
         CreateExporters();
-        SpawnCargoAt(new Vector2Int(0, 0), cargoPrefab);
-        SpawnCargoAt(new Vector2Int(1, 0), cargoPrefab);
-        SpawnCargoAt(new Vector2Int(2, 0), cargoPrefab);
-        SpawnCargoAt(new Vector2Int(3, 1), cargoPrefab);
-        SpawnCargoAt(new Vector2Int(2, 1), cargoPrefab);
+        SpawnAfterMove();
+        //SpawnCargoAt(new Vector2Int(0, 0), cargoPrefab);
+        //SpawnCargoAt(new Vector2Int(1, 0), cargoPrefab);
+        //SpawnCargoAt(new Vector2Int(2, 0), cargoPrefab);
+        //SpawnCargoAt(new Vector2Int(3, 1), cargoPrefab);
+        //SpawnCargoAt(new Vector2Int(2, 1), cargoPrefab);
 
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && !isMoving)
         {
-            foreach (GridCell grid in gridCells)
-            {
-                Debug.Log(grid.position);
-                Debug.Log(grid.HasCargo());
-            }
-            MoveAllCargos();
+            StartCoroutine(MoveAllCargos());
+            isMoving = true;
         }
     }
 
@@ -158,15 +158,40 @@ public class BoardManager : MonoBehaviour
         return gridCells[position.x, position.y].cellObject.transform.position;
     }
 
-    private void MoveAllCargos()
+    //private void MoveAllCargos()
+    //{
+    //    foreach (CargoBase cargo in cargos)
+    //    {
+    //        if (cargo != null)
+    //        {
+    //            StartCoroutine(MoveAndContinue(cargo));
+    //        }
+    //    }
+    //    SpawnAfterMove();
+    //}
+
+    private IEnumerator MoveAllCargos()
     {
+        List<Coroutine> activeCoroutines = new List<Coroutine>();
+
         foreach (CargoBase cargo in cargos)
         {
             if (cargo != null)
             {
-                StartCoroutine(MoveAndContinue(cargo));
+                Coroutine coroutine = StartCoroutine(MoveAndContinue(cargo));
+                activeCoroutines.Add(coroutine);
             }
         }
+
+        // Wait for all coroutines to finish
+        foreach (Coroutine coroutine in activeCoroutines)
+        {
+            yield return coroutine;
+        }
+
+        // all movement coroutines are done, spawn after move
+        isMoving = false;
+        SpawnAfterMove();
     }
 
     private IEnumerator MoveAndContinue(CargoBase cargo)
@@ -203,6 +228,23 @@ public class BoardManager : MonoBehaviour
 
         cell.SetCargo(cargo);
     }
+
+    public void SpawnAfterMove()
+    {
+        Vector2Int[] spawnPoints = new Vector2Int[]
+        {
+            new Vector2Int(0, height-1),
+            new Vector2Int(width-1, height-1)
+        };
+        foreach (Vector2Int v in spawnPoints)
+        {
+            if (!gridCells[v.x, v.y].HasCargo())
+            {
+                SpawnCargoAt(v, cargoPrefab);
+            }
+        }
+        
+    } 
 
     private void MoveCargo(Vector2Int from, Vector2Int to)
     {
