@@ -5,15 +5,16 @@ using System.Collections.Generic;
 public class BoardManager : MonoBehaviour
 {
     public static BoardManager Instance;
+    private int width, height; // Board 大小
 
-    [Header("Board")]
-    public int width, height; // Board 大小
+    [Header("prefab")]
     public GameObject gridPrefab; // GridCell 的 prefab
     public GameObject exporterPrefab; // 出貨口的 prefab
     public GameObject cargoPrefab;
+
     public Transform boardContainer; // 存放 board 的父物件
-    public Transform exporterContainer;
     public GridCell[,] gridCells; // 存放所有的格子
+
     public List<CargoBase> cargos = new List<CargoBase>();
     public List<CargoMover> cargoMovers = new List<CargoMover>(); // 存放所有貨物的移動腳本
     public bool isMoving { get; private set; } = false;
@@ -34,8 +35,7 @@ private void Awake()
 
     private void Start()
     {
-        LevelLoader.Instance.LoadLevel(1);
-        currentLevel = LevelLoader.Instance.GetCurrentLevel();
+        LevelVariablesInit();
         pathData = LoadPathData();
         exporters = LevelLoader.Instance.GetCurrentLevel().exporters;
         foreach (Exporter e in exporters)
@@ -45,6 +45,14 @@ private void Awake()
         InitializeBoard();
         DefinePaths();
         SpawnAfterMove();
+    }
+
+    private void LevelVariablesInit()
+    {
+        LevelLoader.Instance.LoadLevel(1);
+        currentLevel = LevelLoader.Instance.GetCurrentLevel();
+        width = currentLevel.boardWidth;
+        height = currentLevel.boardHeight;
     }
 
     private void Update()

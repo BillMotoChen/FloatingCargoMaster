@@ -6,10 +6,13 @@ TagManager:
   tags:
   - Cargo
   - CargoSlot
-  - TempSlot
-  - TempSlotLocked
   - CarSlot
   - Board
+  - StorageSlot
+  - StorageSlotLocked
+  - TempSlot
+  - TempSlotLocked
+  - Slot
   layers:
   - Default
   - TransparentFX
