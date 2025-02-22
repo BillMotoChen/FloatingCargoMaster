@@ -10,7 +10,7 @@ public class BoardManager : MonoBehaviour
     [Header("prefab")]
     public GameObject gridPrefab; // GridCell 的 prefab
     public GameObject exporterPrefab; // 出貨口的 prefab
-    public GameObject cargoPrefab;
+    public GameObject[] cargoPrefabs;
 
     public Transform boardContainer; // 存放 board 的父物件
     public GridCell[,] gridCells; // 存放所有的格子
@@ -28,7 +28,7 @@ public class BoardManager : MonoBehaviour
     private List<Vector2Int> exporterPositions = new List<Vector2Int>();
     private List<Exporter> exporters;
 
-private void Awake()
+    private void Awake()
     {
         Instance = this;
     }
@@ -47,6 +47,16 @@ private void Awake()
         SpawnAfterMove();
     }
 
+    private void OnEnable()
+    {
+        NormalCargo.OnNormalCargoClicked += HandleMoveAllCargos;
+    }
+
+    private void OnDisable()
+    {
+        NormalCargo.OnNormalCargoClicked -= HandleMoveAllCargos;
+    }
+
     private void LevelVariablesInit()
     {
         LevelLoader.Instance.LoadLevel(1);
@@ -57,11 +67,6 @@ private void Awake()
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !isMoving)
-        {
-            StartCoroutine(MoveAllCargos());
-            isMoving = true;
-        }
     }
 
     private void InitializeBoard()
@@ -148,6 +153,12 @@ private void Awake()
         return gridCells[position.x, position.y].cellObject.transform.position;
     }
 
+    private void HandleMoveAllCargos(NormalCargo cargo)
+    {
+        StartCoroutine(MoveAllCargos());
+        isMoving = true;
+    }
+
     private IEnumerator MoveAllCargos()
     {
         List<Coroutine> activeCoroutines = new List<Coroutine>();
@@ -213,7 +224,7 @@ private void Awake()
         {
             if (!gridCells[v.x, v.y].HasCargo())
             {
-                SpawnCargoAt(v, cargoPrefab);
+                SpawnCargoAt(v, cargoPrefabs[Random.Range(0, currentLevel.color)]);
             }
         }  
     } 
