@@ -9,7 +9,7 @@
                 { "cor": { "x": 3, "y": 2 } }            ],
             "tutorial": true,
             "gameMode": 1,
-            "color": 1,
+            "color": 5,
             "specialCargo": [ ],
             "requiredSets": [ 2, 0, 0, 0, 0 ],
             "cycleId": "4x3_2"

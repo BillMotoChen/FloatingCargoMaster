@@ -525,7 +525,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridPrefab: {fileID: 4159540721732531918, guid: af5037b39983b4d24828b8743a982496, type: 3}
   exporterPrefab: {fileID: 4159540721732531918, guid: 45d6cfed9b41146ea88f403dae4de677, type: 3}
-  cargoPrefab: {fileID: 4425642342468111287, guid: 18ee0a3b20d5540cda39eaa3b67eba2e, type: 3}
+  cargoPrefabs:
+  - {fileID: 4425642342468111287, guid: 18ee0a3b20d5540cda39eaa3b67eba2e, type: 3}
+  - {fileID: 6132731090967861287, guid: 3604787f7a5ae4bd38ccad1b3aff9ec0, type: 3}
+  - {fileID: 4701589506583373199, guid: d194ec1d0c1064d8db49c4f43edb2e58, type: 3}
+  - {fileID: 4562675607229761869, guid: 99e5c681f37984808b864c06ff193871, type: 3}
+  - {fileID: 18940032712857203, guid: 3b91c1e059c53482f833c4b01d24c895, type: 3}
   boardContainer: {fileID: 1217635098}
   cargos: []
   cargoMovers: []
@@ -2493,6 +2498,12 @@ MonoBehaviour:
   storage: {fileID: 220910199}
   slotPrefab: {fileID: 5158357653172499145, guid: c852c9feddd124bcfae861ef8a7e92b0, type: 3}
   lockedSlotPrefab: {fileID: 8299583559802417045, guid: 49cb183c4478848918f2a5ddcc1b0be5, type: 3}
+  cargoPrefabs:
+  - {fileID: 4425642342468111287, guid: 18ee0a3b20d5540cda39eaa3b67eba2e, type: 3}
+  - {fileID: 6132731090967861287, guid: 3604787f7a5ae4bd38ccad1b3aff9ec0, type: 3}
+  - {fileID: 4701589506583373199, guid: d194ec1d0c1064d8db49c4f43edb2e58, type: 3}
+  - {fileID: 4562675607229761869, guid: 99e5c681f37984808b864c06ff193871, type: 3}
+  - {fileID: 18940032712857203, guid: 3b91c1e059c53482f833c4b01d24c895, type: 3}
 --- !u!1 &1638858987
 GameObject:
   m_ObjectHideFlags: 0
