@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.Linq;
 using System;
+using System.Collections.Generic;
+using System.Collections;
+using System.Threading.Tasks;
 
 public class StorageManager : MonoBehaviour
 {
@@ -13,24 +16,18 @@ public class StorageManager : MonoBehaviour
     private int[] cargosInSlots;
     private int availableStorageNum;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private bool clickable;
+
     void Start()
     {
-        availableStorageNum = 7;
-        slots = storage.GetComponentsInChildren<Transform>();
+        clickable = true;
+        availableStorageNum = 10;
+        slots = storage.GetComponentsInChildren<Transform>()
+               .Where(slot => slot.CompareTag("Slot"))
+               .ToArray();
         InitiateStorage(availableStorageNum);
         cargosInSlots = new int[availableStorageNum];
         Array.Fill(cargosInSlots, -1);
-        foreach (Transform t in slots)
-        {
-            Debug.Log(t.name);
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private void OnEnable()
@@ -60,67 +57,226 @@ public class StorageManager : MonoBehaviour
         }
     }
 
-    private void AddNormalCargoToSlot(NormalCargo cargo)
+    private async void AddNormalCargoToSlot(NormalCargo cargo)
     {
-        int slotId = FindSlotToInsert(cargo.cargoId);
-        Debug.Log("SLOT ID: " + slotId);
-        if (slotId == -2)
+        if (!clickable) return;
+        clickable = false;
+        if (await IsAMatch(cargo.cargoId))
         {
-            Debug.LogError("❌ LOSE - No Available Slot!");
-            Time.timeScale = 0; // ✅ Stop the game
+            Debug.Log($"✅ Match Found! Removing all instances of {cargo.cargoId}.");
             return;
         }
 
-        cargosInSlots[slotId] = cargo.cargoId;
-        foreach (Transform slot in slots)
+        int slotId = await FindSlotToInsert(cargo.cargoId);
+        if (slotId == -2)
         {
-            if (!slot.GetChild(0).CompareTag("StorageSlot")) continue;
-            Transform firstChild = slot.GetChild(0);
-            SlotManager slotManager = firstChild.GetComponent<SlotManager>();
-            if (!slotManager.hasCargo)
-            {
-                GameObject cargoToSpawn = Instantiate(cargoPrefabs[cargo.cargoId], firstChild);
-                cargoToSpawn.transform.SetParent(firstChild);
-                cargoToSpawn.transform.localPosition = Vector3.zero;
-                cargoToSpawn.transform.localScale = new Vector3(20, 20, 1);
-                Destroy(cargoToSpawn.GetComponent<NormalCargo>());
-
-                slotManager.hasCargo = true;
-                break;
-            }
+            Debug.LogError("❌ LOSE - No Available Slot!");
+            ShowGameOverUI();
+            return;
         }
-        //if (!slotManager.hasCargo)
-        //{
-        //    // move all the cargo in the slots behind to one slot behind.
-        //    // spawn the cargo at slots[slotId]
-        //    // mark the last slot with cargo's hasCargo = true
-        //}
-        //else
-        //{
-        //    // just spawn
-        //    // and mark it's hasCargo = true
-        //}
+
+        // Insert cargo visually & update tracking
+        Transform firstChild = slots[slotId].GetChild(0);
+        GameObject cargoToSpawn = Instantiate(cargoPrefabs[cargo.cargoId], firstChild);
+        cargoToSpawn.transform.SetParent(firstChild);
+        cargoToSpawn.transform.localPosition = Vector3.zero;
+        cargoToSpawn.transform.localScale = new Vector3(20, 20, 1);
+        Destroy(cargoToSpawn.GetComponent<NormalCargo>());
+
+        SlotManager slotManager = firstChild.GetComponent<SlotManager>();
+        slotManager.hasCargo = true;
+        cargosInSlots[slotId] = cargo.cargoId;
+        clickable = true;
     }
 
-    private int FindSlotToInsert(int id)
+    private async Task<int> FindSlotToInsert(int id)
     {
-        Debug.Log(slots[availableStorageNum].name);
-        if (slots[availableStorageNum].GetChild(0).GetComponent<SlotManager>().hasCargo)
+        await IsAMatch(id);
+
+        if (slots[availableStorageNum - 1].GetChild(0).GetComponent<SlotManager>().hasCargo)
         {
             return -2;
         }
-        int firstEmptySlot = -2;
+
         for (int i = 0; i < cargosInSlots.Length; i++)
         {
+            if (cargosInSlots[i] == id)
+            {
+                await MoveActualCargo(i + 1, 1);
+                return i + 1;
+            }
             if (cargosInSlots[i] == -1)
             {
                 return i;
             }
+        }
+
+        return -2;
+    }
+
+    private async Task<bool> IsAMatch(int id)
+    {
+        List<int> matchPos = new List<int>();
+
+        for (int i = 0; i < cargosInSlots.Length; i++)
+        {
             if (cargosInSlots[i] == id)
             {
-                return i + 1;
+                matchPos.Add(i);
             }
         }
-        return firstEmptySlot;
+
+        if (matchPos.Count >= 2)
+        {
+            // ✅ Remove the matched cargo
+            RemoveCargoWithId(matchPos.ToArray());
+
+            // ✅ Immediately shift remaining items left
+            ShiftCargosLeft();
+
+            // ✅ Wait for the movement to complete
+            await MoveActualCargo(matchPos[0], -matchPos.Count);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private void RemoveCargoWithId(int[] matchPos)
+    {
+        foreach (int i in matchPos)
+        {
+            if (i < 0 || i >= slots.Length) continue;
+
+            Transform firstChild = slots[i].GetChild(0);
+            foreach (Transform child in firstChild)
+            {
+                if (child.CompareTag("Cargo"))
+                {
+                    Destroy(child.gameObject);
+                }
+            }
+
+            SlotManager slotManager = firstChild.GetComponent<SlotManager>();
+            slotManager.hasCargo = false;
+            cargosInSlots[i] = -1;
+        }
+    }
+
+    private async Task MoveActualCargo(int startPos, int distance)
+    {
+        if (distance > 0)
+        {
+            for (int i = availableStorageNum - 1; i >= startPos; i--)
+            {
+                Transform firstChild = slots[i].GetChild(0);
+                SlotManager slotManager = firstChild.GetComponent<SlotManager>();
+
+                if (slotManager.hasCargo)
+                {
+                    Transform lastCargo = null;
+                    for (int j = firstChild.childCount - 1; j >= 0; j--)
+                    {
+                        if (firstChild.GetChild(j).CompareTag("Cargo"))
+                        {
+                            lastCargo = firstChild.GetChild(j);
+                            break;
+                        }
+                    }
+
+                    if (lastCargo != null)
+                    {
+                        int targetPos = Math.Min(i + distance, slots.Length - 1);
+                        Transform targetFirstChild = slots[targetPos].GetChild(0);
+
+                        lastCargo.SetParent(targetFirstChild);
+                        await SmoothMove(lastCargo.gameObject, targetFirstChild.position, 0.1f);
+
+                        slotManager.hasCargo = false;
+                        targetFirstChild.GetComponent<SlotManager>().hasCargo = true;
+
+                        cargosInSlots[targetPos] = cargosInSlots[i];
+                        cargosInSlots[i] = -1;
+                    }
+                }
+            }
+        }
+        else
+        {
+            for (int i = startPos; i < availableStorageNum; i++)
+            {
+                Transform firstChild = slots[i].GetChild(0);
+                SlotManager slotManager = firstChild.GetComponent<SlotManager>();
+
+                if (slotManager.hasCargo)
+                {
+                    Transform lastCargo = null;
+                    for (int j = firstChild.childCount - 1; j >= 0; j--)
+                    {
+                        if (firstChild.GetChild(j).CompareTag("Cargo"))
+                        {
+                            lastCargo = firstChild.GetChild(j);
+                            break;
+                        }
+                    }
+
+                    if (lastCargo != null)
+                    {
+                        int targetPos = Math.Max(i + distance, 0);
+                        Transform targetFirstChild = slots[targetPos].GetChild(0);
+
+                        lastCargo.SetParent(targetFirstChild);
+                        await SmoothMove(lastCargo.gameObject, targetFirstChild.position, 0.1f);
+
+                        slotManager.hasCargo = false;
+                        targetFirstChild.GetComponent<SlotManager>().hasCargo = true;
+                    }
+                }
+            }
+        }
+        clickable = true;
+    }
+
+    private async Task SmoothMove(GameObject obj, Vector3 targetPos, float duration)
+    {
+        Vector3 startPos = obj.transform.position;
+        float elapsedTime = 0;
+
+        while (elapsedTime < duration)
+        {
+            obj.transform.position = Vector3.Lerp(startPos, targetPos, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            await Task.Yield();
+        }
+
+        obj.transform.position = targetPos;
+    }
+
+    private void ShiftCargosLeft()
+    {
+        int insertPos = 0;
+        for (int i = 0; i < cargosInSlots.Length; i++)
+        {
+            if (cargosInSlots[i] != -1)
+            {
+                cargosInSlots[insertPos++] = cargosInSlots[i];
+            }
+        }
+        for (int i = insertPos; i < cargosInSlots.Length; i++)
+        {
+            cargosInSlots[i] = -1;
+        }
+    }
+
+    private void ShowGameOverUI()
+    {
+        Debug.LogError("❌ GAME OVER!");
+        // Add UI or restart button here instead of freezing game
+    }
+
+    private void DebugString()
+    {
+        Debug.Log(string.Join(" ", cargosInSlots));
     }
 }
