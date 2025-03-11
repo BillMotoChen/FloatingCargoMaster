@@ -13,6 +13,8 @@ TagManager:
   - TempSlot
   - TempSlotLocked
   - Slot
+  - RequiredMatchCheck
+  - RequiredMatchNum
   layers:
   - Default
   - TransparentFX

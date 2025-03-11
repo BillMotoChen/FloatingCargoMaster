@@ -18,10 +18,16 @@ public class StorageManager : MonoBehaviour
 
     private bool clickable;
 
+    public NormalModeGameManager normalModeGameManager;
+
+    public delegate void NormalMatchHandler(int id);
+    public static event NormalMatchHandler OnNormalCargoMatch;
+
+
     void Start()
     {
         clickable = true;
-        availableStorageNum = 10;
+        availableStorageNum = 5;
         slots = storage.GetComponentsInChildren<Transform>()
                .Where(slot => slot.CompareTag("Slot"))
                .ToArray();
@@ -59,19 +65,19 @@ public class StorageManager : MonoBehaviour
 
     private async void AddNormalCargoToSlot(NormalCargo cargo)
     {
-        if (!clickable) return;
+        if (!clickable || Time.timeScale <= 0) return;
         clickable = false;
         if (await IsAMatch(cargo.cargoId))
         {
             Debug.Log($"✅ Match Found! Removing all instances of {cargo.cargoId}.");
+            OnNormalCargoMatch?.Invoke(cargo.cargoId);
             return;
         }
 
         int slotId = await FindSlotToInsert(cargo.cargoId);
         if (slotId == -2)
         {
-            Debug.LogError("❌ LOSE - No Available Slot!");
-            ShowGameOverUI();
+            normalModeGameManager.GameFailed();
             return;
         }
 
@@ -267,12 +273,6 @@ public class StorageManager : MonoBehaviour
         {
             cargosInSlots[i] = -1;
         }
-    }
-
-    private void ShowGameOverUI()
-    {
-        Debug.LogError("❌ GAME OVER!");
-        // Add UI or restart button here instead of freezing game
     }
 
     private void DebugString()

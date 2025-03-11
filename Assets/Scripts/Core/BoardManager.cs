@@ -79,7 +79,7 @@ public class BoardManager : MonoBehaviour
 
         // 設定 Board 的 Y 軸範圍 (佔畫面 30%，從 21% 開始)
         float boardHeight = screenHeight * 0.3f;
-        float boardStartY = screenHeight * 0.56f;
+        float boardStartY = screenHeight * 0.52f;
 
         // 轉換螢幕座標為世界座標
         Vector3 worldTop = Camera.main.ScreenToWorldPoint(new Vector3(screenWidth / 2, boardStartY + boardHeight, 0));
