@@ -20,7 +20,7 @@ public class RequiredMatchesManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        LevelLoader.Instance.LoadLevel(1);
+        LevelLoader.Instance.LoadLevel(PlayerData.stage);
         levelData = LevelLoader.Instance.GetCurrentLevel();
         requiredMatches = levelData.requiredSets;
         InitRequiredArea();

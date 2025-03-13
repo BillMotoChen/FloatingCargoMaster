@@ -59,7 +59,7 @@ public class BoardManager : MonoBehaviour
 
     private void LevelVariablesInit()
     {
-        LevelLoader.Instance.LoadLevel(1);
+        LevelLoader.Instance.LoadLevel(PlayerData.stage);
         currentLevel = LevelLoader.Instance.GetCurrentLevel();
         width = currentLevel.boardWidth;
         height = currentLevel.boardHeight;

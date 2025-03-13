@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NormalModeUIManager : MonoBehaviour
 {
@@ -78,5 +79,11 @@ public class NormalModeUIManager : MonoBehaviour
     {
         board.SetActive(true);
         storage.SetActive(true);
+    }
+
+    public void ReplayOrNextNormalMode()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("NormalMode");
     }
 }

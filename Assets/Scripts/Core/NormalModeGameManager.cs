@@ -9,14 +9,14 @@ public class NormalModeGameManager : MonoBehaviour
     // **🔹 Call when the game is cleared**
     public void GameCleared()
     {
-        Debug.Log("🎉 Game Cleared!");
+        PlayerData.stage += 1;
+        PlayerData.instance.SaveData();
         OnGameCleared?.Invoke();
     }
 
     // **🔹 Call when the player loses**
     public void GameFailed()
     {
-        Debug.Log("❌ Game Over!");
         OnGameFailed?.Invoke();
     }
 

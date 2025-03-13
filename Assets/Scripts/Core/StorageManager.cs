@@ -27,7 +27,7 @@ public class StorageManager : MonoBehaviour
     void Start()
     {
         clickable = true;
-        availableStorageNum = 5;
+        availableStorageNum = PlayerData.slotNum;
         slots = storage.GetComponentsInChildren<Transform>()
                .Where(slot => slot.CompareTag("Slot"))
                .ToArray();
