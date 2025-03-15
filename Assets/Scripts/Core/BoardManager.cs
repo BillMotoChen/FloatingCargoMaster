@@ -181,6 +181,7 @@ public class BoardManager : MonoBehaviour
         // all movement coroutines are done, spawn after move
         isMoving = false;
         SpawnAfterMove();
+        UpdateCargoAlphaBasedOnClickability();
     }
 
     private IEnumerator MoveAndContinue(CargoBase cargo)
@@ -296,5 +297,44 @@ public class BoardManager : MonoBehaviour
 
         Debug.Log("✅ PathData loaded from level cycles");
         return data;
+    }
+
+    public bool IsCargoClickable(Vector2Int currentPos)
+    {
+        for (int y = currentPos.y - 1; y >= 0; y--)
+        {
+            Vector2Int belowPos = new Vector2Int(currentPos.x, y);
+            if (gridCells[belowPos.x, belowPos.y].HasCargo())
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void UpdateCargoAlphaBasedOnClickability()
+    {
+        foreach (CargoBase cargo in cargos)
+        {
+            if (cargo == null) continue;
+
+            bool isClickable = IsCargoClickable(cargo.position);
+            SetCargoAlpha(cargo, isClickable ? 1f : 0.45f);
+        }
+    }
+
+    /// <summary>
+    /// Sets the alpha transparency of a cargo
+    /// </summary>
+    private void SetCargoAlpha(CargoBase cargo, float alphaLevel)
+    {
+        SpriteRenderer spriteRenderer = cargo.GetComponent<SpriteRenderer>();
+
+        if (spriteRenderer != null)
+        {
+            Color color = spriteRenderer.color;
+            color.a = alphaLevel;
+            spriteRenderer.color = color;
+        }
     }
 }
