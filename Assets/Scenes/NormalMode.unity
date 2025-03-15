@@ -1120,6 +1120,7 @@ MonoBehaviour:
   pauseButton: {fileID: 4992729139139243693}
   board: {fileID: 678858483}
   storage: {fileID: 220910199}
+  levelText: {fileID: 1244706770400935327}
 --- !u!1 &608519521
 GameObject:
   m_ObjectHideFlags: 0
@@ -2398,7 +2399,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -100
+  m_SortingOrder: -5000
   m_Sprite: {fileID: 21300000, guid: 1d41821bef3e84af597185b6d07710aa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2495,8 +2496,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GamePopupsManager, Assembly-CSharp
+      - m_Target: {fileID: 528571200}
+        m_TargetAssemblyTypeName: NormalModeUIManager, Assembly-CSharp
         m_MethodName: GoHome
         m_Mode: 1
         m_Arguments:
@@ -2733,7 +2734,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -100
+  m_SortingOrder: -5000
   m_Sprite: {fileID: 21300000, guid: 1d41821bef3e84af597185b6d07710aa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2895,7 +2896,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -100
+  m_SortingOrder: -5000
   m_Sprite: {fileID: 21300000, guid: 1d41821bef3e84af597185b6d07710aa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -3665,6 +3666,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0bd4c4a35a48b4f07a81b7556b007b5a, type: 3}
+--- !u!114 &1244706770400935327 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3764741369000379700, guid: 0bd4c4a35a48b4f07a81b7556b007b5a, type: 3}
+  m_PrefabInstance: {fileID: 1244706770400935326}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &3218937057629998080
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5020,8 +5032,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GamePopupsManager, Assembly-CSharp
+      - m_Target: {fileID: 528571200}
+        m_TargetAssemblyTypeName: NormalModeUIManager, Assembly-CSharp
         m_MethodName: GoHome
         m_Mode: 1
         m_Arguments:
@@ -8194,8 +8206,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GamePopupsManager, Assembly-CSharp
+      - m_Target: {fileID: 528571200}
+        m_TargetAssemblyTypeName: NormalModeUIManager, Assembly-CSharp
         m_MethodName: GoHome
         m_Mode: 1
         m_Arguments:

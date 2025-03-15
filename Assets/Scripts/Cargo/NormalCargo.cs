@@ -24,6 +24,8 @@ public class NormalCargo : CargoBase
 
     private void OnMouseDown()
     {
+        if (!IsClickable()) return;
+
         OnNormalCargoClicked?.Invoke(this);
         Destroy(gameObject);
     }
@@ -53,5 +55,11 @@ public class NormalCargo : CargoBase
                 cargoId = -1;
                 break;
         }
+    }
+
+    private bool IsClickable()
+    {
+        //Vector2Int belowPos = new Vector2Int(position.x, position.y - 1);
+        return BoardManager.Instance.IsCargoClickable(position);
     }
 }

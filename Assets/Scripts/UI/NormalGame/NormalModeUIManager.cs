@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class NormalModeUIManager : MonoBehaviour
 {
@@ -11,8 +12,11 @@ public class NormalModeUIManager : MonoBehaviour
     public GameObject board;
     public GameObject storage;
 
+    public TMP_Text levelText;
+
     private void Start()
     {
+        ShowLevelText();
         HideAllPopUp();
     }
 
@@ -85,5 +89,16 @@ public class NormalModeUIManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("NormalMode");
+    }
+
+    public void GoHome()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Home");
+    }
+
+    private void ShowLevelText()
+    {
+        levelText.text = "LEVEL " + PlayerData.stage.ToString();
     }
 }

@@ -22,7 +22,7 @@ public class RequiredMatchesManager : MonoBehaviour
     {
         LevelLoader.Instance.LoadLevel(PlayerData.stage);
         levelData = LevelLoader.Instance.GetCurrentLevel();
-        requiredMatches = levelData.requiredSets;
+        requiredMatches = new List<int>(levelData.requiredSets);
         InitRequiredArea();
     }
 
@@ -53,8 +53,6 @@ public class RequiredMatchesManager : MonoBehaviour
         int maxItems = 5;
         float leftMargin = parentWidth * 0.1f;
         float spacing = parentWidth * 0.80f / (maxItems - 1);
-        Debug.Log("LEFT: " + leftMargin);
-        Debug.Log("spacing: " + spacing);
 
         int xCount = 0;
 
