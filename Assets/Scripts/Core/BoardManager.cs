@@ -79,7 +79,7 @@ public class BoardManager : MonoBehaviour
 
         // 設定 Board 的 Y 軸範圍 (佔畫面 30%，從 21% 開始)
         float boardHeight = screenHeight * 0.3f;
-        float boardStartY = screenHeight * 0.52f;
+        float boardStartY = screenHeight * 0.5f;
 
         // 轉換螢幕座標為世界座標
         Vector3 worldTop = Camera.main.ScreenToWorldPoint(new Vector3(screenWidth / 2, boardStartY + boardHeight, 0));
@@ -319,22 +319,25 @@ public class BoardManager : MonoBehaviour
             if (cargo == null) continue;
 
             bool isClickable = IsCargoClickable(cargo.position);
-            SetCargoAlpha(cargo, isClickable ? 1f : 0.45f);
+            SetCargoAlphaAndScale(cargo, isClickable ? 1f : 0.45f, isClickable ? 0.2f : 0.15f);
         }
     }
 
     /// <summary>
-    /// Sets the alpha transparency of a cargo
+    /// Sets the alpha transparency and scale of the cargo based on its clickability.
     /// </summary>
-    private void SetCargoAlpha(CargoBase cargo, float alphaLevel)
+    private void SetCargoAlphaAndScale(CargoBase cargo, float alpha, float scale)
     {
+        // ✅ Update Alpha Transparency
         SpriteRenderer spriteRenderer = cargo.GetComponent<SpriteRenderer>();
-
         if (spriteRenderer != null)
         {
             Color color = spriteRenderer.color;
-            color.a = alphaLevel;
+            color.a = alpha;
             spriteRenderer.color = color;
         }
+
+        // ✅ Update Scale
+        cargo.transform.localScale = new Vector3(scale, scale, 1f);
     }
 }
