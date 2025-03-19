@@ -12,6 +12,7 @@ public class NormalModeUIManager : MonoBehaviour
 
     public GameObject board;
     public GameObject storage;
+    public GameObject levelObject;
 
     public TMP_Text levelText;
     public TMP_Text coinText;
@@ -62,6 +63,7 @@ public class NormalModeUIManager : MonoBehaviour
         pausePopup.SetActive(true);
         pauseButton.SetActive(false);
         HideGameObjects();
+        ShowCoinObject();
         Debug.Log("⏸️ Game Paused");
         Time.timeScale = 0;
     }
@@ -71,6 +73,7 @@ public class NormalModeUIManager : MonoBehaviour
         pausePopup.SetActive(false);
         pauseButton.SetActive(true);
         ShowGameObjects();
+        HideCoinObject();
         Debug.Log("▶️ Game Resumed");
         Time.timeScale = 1;
     }
@@ -83,16 +86,18 @@ public class NormalModeUIManager : MonoBehaviour
         coinObject.SetActive(false);
     }
 
-    private void HideGameObjects()
+    public void HideGameObjects()
     {
         board.SetActive(false);
         storage.SetActive(false);
+        levelObject.SetActive(false);
     }
 
-    private void ShowGameObjects()
+    public void ShowGameObjects()
     {
         board.SetActive(true);
         storage.SetActive(true);
+        levelObject.SetActive(true);
     }
 
     public void ReplayNormalMode()
@@ -146,6 +151,12 @@ public class NormalModeUIManager : MonoBehaviour
         coinObject.SetActive(true);
         UpdateCoinText();
     }
+
+    private void HideCoinObject()
+    {
+        coinObject.SetActive(false);
+    }
+
 
     private void GainCoin(int coin)
     {

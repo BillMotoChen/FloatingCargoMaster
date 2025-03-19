@@ -22,11 +22,11 @@
             "exporters": [
                 { "cor": { "x": 0, "y": 2 } },
                 { "cor": { "x": 3, "y": 2 } }            ],
-            "tutorial": true,
+            "tutorial": false,
             "gameMode": 1,
             "color": 2,
             "specialCargo": [ ],
-            "requiredSets": [ 5, 5, 0, 0, 0 ],
+            "requiredSets": [ 1, 1, 0, 0, 0 ],
             "cycleId": "4x3_2",
             "coinGained": 10
         },
@@ -52,12 +52,12 @@
             "exporters": [
                 { "cor": { "x": 0, "y": 2 } },
                 { "cor": { "x": 3, "y": 2 } }            ],
-            "tutorial": true,
+            "tutorial": false,
             "gameMode": 1,
             "color": 3,
             "specialCargo": [ ],
             "requiredSets": [ 2, 2, 2, 0, 0 ],
-            "cycleId": "4x3_2",
+            "cycleId": "4x3_1",
             "coinGained": 10
         },
         {
@@ -67,7 +67,7 @@
             "exporters": [
                 { "cor": { "x": 0, "y": 2 } },
                 { "cor": { "x": 3, "y": 2 } }            ],
-            "tutorial": true,
+            "tutorial": false,
             "gameMode": 1,
             "color": 3,
             "specialCargo": [ ],
