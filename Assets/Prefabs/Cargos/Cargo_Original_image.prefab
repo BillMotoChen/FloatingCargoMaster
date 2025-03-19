@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3116662862030964361}
   - component: {fileID: 3688052439124086631}
   - component: {fileID: 1480793841506364529}
-  - component: {fileID: -3441608491126948521}
   m_Layer: 0
   m_Name: Cargo_Original_image
   m_TagString: Cargo
@@ -80,7 +79,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 9999
   m_Sprite: {fileID: 21300000, guid: 67d186daf11784a21a5460ed78d72032, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -172,20 +171,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &-3441608491126948521
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 18940032712857203}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f47c1ae0a25464347b48fbf1e54c3092, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  position: {x: 0, y: 0}
-  cargoId: 0
 --- !u!1 &2074127188909601636
 GameObject:
   m_ObjectHideFlags: 0
@@ -397,7 +382,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 9999
   m_Sprite: {fileID: 21300000, guid: 8a96c48f7f56343f685c48174f66da37, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
