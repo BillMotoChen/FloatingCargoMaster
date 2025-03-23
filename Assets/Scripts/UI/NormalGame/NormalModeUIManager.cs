@@ -19,6 +19,7 @@ public class NormalModeUIManager : MonoBehaviour
     public TMP_Text coinGainWhenClearText;
 
     private int coinGainWhenClear;
+    public StorageManager storageManager;
 
     private void Start()
     {
@@ -41,21 +42,21 @@ public class NormalModeUIManager : MonoBehaviour
 
     private void ShowWinPopup()
     {
-        HideGameObjects();
-        ShowCoinObject();
         coinGainWhenClearText.text = "+ " + coinGainWhenClear.ToString();
         Time.timeScale = 0;
         pauseButton.SetActive(false);
         winPopup.SetActive(true);
+        HideGameObjects();
+        ShowCoinObject();
     }
 
     private void ShowLosePopup()    
     {
-        HideGameObjects();
-        ShowCoinObject();
         Time.timeScale = 0;
         pauseButton.SetActive(false);
         losePopup.SetActive(true);
+        HideGameObjects();
+        ShowCoinObject();
     }
 
     public void ShowPausePopup()
@@ -64,7 +65,6 @@ public class NormalModeUIManager : MonoBehaviour
         pauseButton.SetActive(false);
         HideGameObjects();
         ShowCoinObject();
-        Debug.Log("⏸️ Game Paused");
         Time.timeScale = 0;
     }
 
@@ -117,6 +117,7 @@ public class NormalModeUIManager : MonoBehaviour
     {
         HideAllPopUp();
         HidePausePopup();
+        storageManager.ClearAllSlots();
     }
 
     public void DoubleCoin()

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class BoardManager : MonoBehaviour
 {
@@ -165,7 +166,7 @@ public class BoardManager : MonoBehaviour
 
         foreach (CargoBase cargo in cargos)
         {
-            if (cargo != null)
+            if (cargo != null && cargo.gameObject.activeInHierarchy)
             {
                 Coroutine coroutine = StartCoroutine(MoveAndContinue(cargo));
                 activeCoroutines.Add(coroutine);
@@ -294,8 +295,6 @@ public class BoardManager : MonoBehaviour
                 data.AddPath(from, to);
             }
         }
-
-        Debug.Log("✅ PathData loaded from level cycles");
         return data;
     }
 
@@ -339,5 +338,10 @@ public class BoardManager : MonoBehaviour
 
         // ✅ Update Scale
         cargo.transform.localScale = new Vector3(scale, scale, 1f);
+    }
+
+    public void CleanupCargos()
+    {
+        cargos = cargos.Where(cargo => cargo != null).ToList();
     }
 }

@@ -11,7 +11,7 @@
             "gameMode": 1,
             "color": 2,
             "specialCargo": [ ],
-            "requiredSets": [ 3, 3, 0, 0, 0 ],
+            "requiredSets": [ 2, 2, 0, 0, 0 ],
             "cycleId": "4x3_1",
             "coinGained": 10
         },
@@ -26,7 +26,7 @@
             "gameMode": 1,
             "color": 2,
             "specialCargo": [ ],
-            "requiredSets": [ 1, 1, 0, 0, 0 ],
+            "requiredSets": [ 3, 3, 0, 0, 0 ],
             "cycleId": "4x3_2",
             "coinGained": 10
         },
@@ -39,9 +39,9 @@
                 { "cor": { "x": 3, "y": 2 } }            ],
             "tutorial": true,
             "gameMode": 1,
-            "color": 2,
+            "color": 3,
             "specialCargo": [ ],
-            "requiredSets": [ 7, 7, 0, 0, 0 ],
+            "requiredSets": [ 2, 2, 2, 0, 0 ],
             "cycleId": "4x3_2",
             "coinGained": 10
         },
@@ -56,7 +56,7 @@
             "gameMode": 1,
             "color": 3,
             "specialCargo": [ ],
-            "requiredSets": [ 2, 2, 2, 0, 0 ],
+            "requiredSets": [ 3, 3, 3, 0, 0 ],
             "cycleId": "4x3_1",
             "coinGained": 10
         },
@@ -69,9 +69,39 @@
                 { "cor": { "x": 3, "y": 2 } }            ],
             "tutorial": false,
             "gameMode": 1,
-            "color": 3,
+            "color": 4,
             "specialCargo": [ ],
-            "requiredSets": [ 5, 5, 5, 0, 0 ],
+            "requiredSets": [ 2, 2, 2, 2, 0 ],
+            "cycleId": "4x3_2",
+            "coinGained": 10
+        },
+        {
+            "level": 6,
+            "boardWidth": 4,
+            "boardHeight": 3,
+            "exporters": [
+                { "cor": { "x": 0, "y": 2 } },
+                { "cor": { "x": 3, "y": 2 } }            ],
+            "tutorial": false,
+            "gameMode": 1,
+            "color": 4,
+            "specialCargo": [ ],
+            "requiredSets": [ 3, 3, 3, 3, 0 ],
+            "cycleId": "4x3_2",
+            "coinGained": 10
+        },
+        {
+            "level": 7,
+            "boardWidth": 4,
+            "boardHeight": 3,
+            "exporters": [
+                { "cor": { "x": 0, "y": 2 } },
+                { "cor": { "x": 3, "y": 2 } }            ],
+            "tutorial": false,
+            "gameMode": 1,
+            "color": 4,
+            "specialCargo": [ ],
+            "requiredSets": [ 2, 2, 2, 2, 0 ],
             "cycleId": "4x3_2",
             "coinGained": 10
         }
