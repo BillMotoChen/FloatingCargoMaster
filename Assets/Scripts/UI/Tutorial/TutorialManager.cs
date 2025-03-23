@@ -7,6 +7,7 @@ public class TutorialManager : MonoBehaviour
     public static TutorialManager Instance;
 
     public NormalModeUIManager normalModeUIManager;
+    public StorageManager storageManager;
 
     private bool isTutorial;
 

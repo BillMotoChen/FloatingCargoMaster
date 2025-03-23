@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Threading.Tasks;
 
+[DefaultExecutionOrder(-99)]
 public class StorageManager : MonoBehaviour
 {
     public GameObject storage;
@@ -12,7 +13,7 @@ public class StorageManager : MonoBehaviour
     public GameObject lockedSlotPrefab;
     public GameObject[] cargoPrefabs;
 
-    private Transform[] slots;
+    private List<Transform> slots;
     private int[] cargosInSlots;
     private int availableStorageNum;
 
@@ -30,7 +31,7 @@ public class StorageManager : MonoBehaviour
         availableStorageNum = PlayerData.slotNum;
         slots = storage.GetComponentsInChildren<Transform>()
                .Where(slot => slot.CompareTag("Slot"))
-               .ToArray();
+               .ToList();
         InitiateStorage(availableStorageNum);
         cargosInSlots = new int[availableStorageNum];
         Array.Fill(cargosInSlots, -1);
@@ -39,16 +40,19 @@ public class StorageManager : MonoBehaviour
     private void OnEnable()
     {
         NormalCargo.OnNormalCargoClicked += AddNormalCargoToSlot;
+        LockSlotManager.OnNewSlotUnlock += UnlockNewSlot;
     }
 
     private void OnDisable()
     {
         NormalCargo.OnNormalCargoClicked -= AddNormalCargoToSlot;
+        LockSlotManager.OnNewSlotUnlock -= UnlockNewSlot;
     }
 
-    private void InitiateStorage(int unlockNum)
+    public void InitiateStorage(int unlockNum)
     {
         int count = 0;
+        bool firstLockedSlotFound = false;
 
         foreach (Transform slot in slots)
         {
@@ -59,6 +63,19 @@ public class StorageManager : MonoBehaviour
             newSlotObject.transform.SetParent(slot);
             newSlotObject.transform.localPosition = Vector3.zero;
             newSlotObject.transform.localScale = Vector3.one;
+
+            if (count >= unlockNum)
+            {
+                LockSlotManager lockSlotManager = newSlotObject.GetComponent<LockSlotManager>();
+                if (lockSlotManager != null)
+                {
+                    lockSlotManager.isNextSlot = !firstLockedSlotFound ? true : false;
+                    lockSlotManager.coinIcon.SetActive(!firstLockedSlotFound ? true : false);
+                    lockSlotManager.priceText.text = !firstLockedSlotFound ? lockSlotManager.price[unlockNum - 5].ToString() : "";
+                }
+                firstLockedSlotFound = true;
+            }
+
             count++;
         }
     }
@@ -67,6 +84,8 @@ public class StorageManager : MonoBehaviour
     {
         if (!clickable || Time.timeScale <= 0) return;
         clickable = false;
+        BoardManager.Instance.CleanupCargos();
+
         if (await IsAMatch(cargo.cargoId))
         {
             Debug.Log($"✅ Match Found! Removing all instances of {cargo.cargoId}.");
@@ -93,6 +112,7 @@ public class StorageManager : MonoBehaviour
         slotManager.hasCargo = true;
         cargosInSlots[slotId] = cargo.cargoId;
         clickable = true;
+        DebugString();
     }
 
     private async Task<int> FindSlotToInsert(int id)
@@ -153,9 +173,11 @@ public class StorageManager : MonoBehaviour
     {
         foreach (int i in matchPos)
         {
-            if (i < 0 || i >= slots.Length) continue;
+            if (i < 0 || i >= slots.Count) continue;
 
             Transform firstChild = slots[i].GetChild(0);
+            List<GameObject> objectsToRemove = new List<GameObject>();
+
             foreach (Transform child in firstChild)
             {
                 if (child.CompareTag("Cargo"))
@@ -164,10 +186,22 @@ public class StorageManager : MonoBehaviour
                 }
             }
 
+            foreach (GameObject cargoObj in objectsToRemove)
+            {
+                CargoBase cargo = cargoObj.GetComponent<CargoBase>();
+                if (cargo != null)
+                {
+                    BoardManager.Instance.cargos.Remove(cargo);
+                }
+                Destroy(cargoObj);
+            }
+
             SlotManager slotManager = firstChild.GetComponent<SlotManager>();
             slotManager.hasCargo = false;
             cargosInSlots[i] = -1;
         }
+
+        BoardManager.Instance.CleanupCargos();
     }
 
     private async Task MoveActualCargo(int startPos, int distance)
@@ -193,7 +227,7 @@ public class StorageManager : MonoBehaviour
 
                     if (lastCargo != null)
                     {
-                        int targetPos = Math.Min(i + distance, slots.Length - 1);
+                        int targetPos = Math.Min(i + distance, slots.Count - 1);
                         Transform targetFirstChild = slots[targetPos].GetChild(0);
 
                         lastCargo.SetParent(targetFirstChild);
@@ -278,5 +312,79 @@ public class StorageManager : MonoBehaviour
     private void DebugString()
     {
         Debug.Log(string.Join(" ", cargosInSlots));
+    }
+
+    private void UnlockNewSlot()
+    {
+        // Increase player slot count
+        PlayerData.slotNum += 1;
+        PlayerData.instance.SaveData();
+
+        // Find the first locked slot
+        for (int i = 0; i < slots.Count; i++)
+        {
+            Transform firstChild = slots[i].GetChild(0);
+            LockSlotManager lockSlotManager = firstChild.GetComponent<LockSlotManager>();
+
+            if (lockSlotManager != null)
+            {
+                // 🚀 Remove the locked slot
+                Destroy(firstChild.gameObject);
+
+                // ✅ Replace with an unlocked slot
+                GameObject newSlot = Instantiate(slotPrefab, slots[i]);
+                newSlot.transform.SetParent(slots[i]);
+                newSlot.transform.localPosition = Vector3.zero;
+                newSlot.transform.localScale = Vector3.one;
+                slots.Add(newSlot.transform);
+                int[] newCargosInSlots = new int[cargosInSlots.Length + 1];
+                Array.Copy(cargosInSlots, newCargosInSlots, cargosInSlots.Length);
+                newCargosInSlots[newCargosInSlots.Length - 1] = -1;
+                cargosInSlots = newCargosInSlots;
+
+                // Update tracking variables
+                availableStorageNum = PlayerData.slotNum;
+
+                // 🔍 Find the next locked slot and update it
+                for (int j = i + 1; j < slots.Count; j++)
+                {
+                    Transform nextFirstChild = slots[j].GetChild(0);
+                    LockSlotManager nextLockSlot = nextFirstChild.GetComponent<LockSlotManager>();
+
+                    if (nextLockSlot != null)
+                    {
+                        // Set this as the new next slot to unlock
+                        nextLockSlot.isNextSlot = true;
+                        nextLockSlot.coinIcon.SetActive(true);
+
+                        // Update the price based on remaining slots
+                        int priceIndex = PlayerData.slotNum - 5;
+                        nextLockSlot.priceText.text = (priceIndex < nextLockSlot.price.Length)
+                            ? nextLockSlot.price[priceIndex].ToString()
+                            : "";
+
+                        return; // Stop looping since we found the next locked slot
+                    }
+                }
+
+                return; // Exit the function once we replace the first locked slot
+            }
+        }
+    }
+
+    public void ClearAllSlots()
+    {
+        foreach (Transform slot in slots)
+        {
+            if (slot.childCount > 0)
+            {
+                Destroy(slot.GetChild(0).gameObject); // Destroy the instantiated prefab
+            }
+        }
+
+        InitiateStorage(availableStorageNum);
+        cargosInSlots = new int[availableStorageNum];
+        Array.Fill(cargosInSlots, -1);
+        clickable = true;
     }
 }
