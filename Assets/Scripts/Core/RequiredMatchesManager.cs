@@ -10,6 +10,7 @@ public class RequiredMatchesManager : MonoBehaviour
     private List<int> requiredMatches;
     private List<TMP_Text> requiredMatchesNums;
     private List<GameObject> requiredMatchesCheck;
+    private Dictionary<int, int> matchIndexMap;
 
 
     public List<GameObject> requiredNormalCargoPrefabs;
@@ -42,31 +43,35 @@ public class RequiredMatchesManager : MonoBehaviour
 
     }
 
-
-
     private void InitRequiredArea()
     {
         requiredMatchesNums = new List<TMP_Text>();
         requiredMatchesCheck = new List<GameObject>();
+        matchIndexMap = new Dictionary<int, int>();
 
         float parentWidth = requiredMatchesArea.GetComponent<RectTransform>().rect.width;
-        int maxItems = 5;
+        int maxPerRow = 5;
         float leftMargin = parentWidth * 0.1f;
-        float spacing = parentWidth * 0.80f / (maxItems - 1);
+        float spacing = parentWidth * 0.80f / (maxPerRow - 1);
 
-        int xCount = 0;
+        int xCount = 0, yCount = 0;
+        int actualIndex = 0; // Index for `requiredMatchesNums` and `requiredMatchesCheck`
 
         for (int i = 0; i < requiredMatches.Count; i++)
         {
             if (requiredMatches[i] > 0) // ✅ Only instantiate if the required amount is greater than 0
             {
+                // Store mapping from `requiredMatches[i]` index to `requiredMatchesNums` index
+                matchIndexMap[i] = actualIndex;
+
                 // Instantiate the required cargo prefab
                 GameObject requiredCargo = Instantiate(requiredNormalCargoPrefabs[i], requiredMatchesArea.transform);
                 Transform cargoRect = requiredCargo.GetComponent<Transform>();
 
                 // Set position
-                float xPos = leftMargin + (xCount++ * spacing) - parentWidth * 0.5f;
-                cargoRect.localPosition = new Vector3(xPos, 20, 0);
+                float xPos = leftMargin + (xCount * spacing) - parentWidth * 0.5f;
+                float yPos = 20 - (yCount * 80);
+                cargoRect.localPosition = new Vector3(xPos, yPos, 0);
 
                 // ✅ Find TMP_Text inside the instantiated prefab (RequiredMatchNum)
                 TMP_Text matchText = requiredCargo.GetComponentInChildren<TMP_Text>();
@@ -82,6 +87,16 @@ public class RequiredMatchesManager : MonoBehaviour
                 {
                     checkObj.SetActive(false);
                     requiredMatchesCheck.Add(checkObj);
+                }
+
+                actualIndex++; // ✅ Increment stored index for `requiredMatchesNums`
+
+                // Move to next row if needed
+                xCount++;
+                if (xCount >= maxPerRow)
+                {
+                    xCount = 0;
+                    yCount++;
                 }
             }
         }
@@ -102,13 +117,17 @@ public class RequiredMatchesManager : MonoBehaviour
 
     private void UpdateTextWhenMatch(int id)
     {
+        if (!matchIndexMap.ContainsKey(id)) return; // ✅ Ensure we have a valid mapping
+
+        int mappedIndex = matchIndexMap[id]; // ✅ Get correct index in `requiredMatchesNums`
+
         requiredMatches[id] -= 1;
         if (requiredMatches[id] <= 0)
         {
             try
             {
-                requiredMatchesCheck[id].SetActive(true);
-                requiredMatchesNums[id].text = "";
+                requiredMatchesCheck[mappedIndex].SetActive(true);
+                requiredMatchesNums[mappedIndex].text = "";
                 CheckWin();
             }
             catch
@@ -118,7 +137,7 @@ public class RequiredMatchesManager : MonoBehaviour
         }
         else
         {
-            requiredMatchesNums[id].text = requiredMatches[id].ToString();
+            requiredMatchesNums[mappedIndex].text = requiredMatches[id].ToString();
         }
     }
 

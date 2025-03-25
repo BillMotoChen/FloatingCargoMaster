@@ -99,9 +99,9 @@
                 { "cor": { "x": 3, "y": 2 } }            ],
             "tutorial": false,
             "gameMode": 1,
-            "color": 4,
+            "color": 10,
             "specialCargo": [ ],
-            "requiredSets": [ 2, 2, 2, 2, 0 ],
+            "requiredSets": [ 0, 0, 0, 0, 0, 2, 2, 2, 2, 2 ],
             "cycleId": "4x3_2",
             "coinGained": 10
         }
