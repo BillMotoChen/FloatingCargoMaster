@@ -51,6 +51,21 @@ public class NormalCargo : CargoBase
             case "Cargo_Yellow":
                 cargoId = 4;
                 break;
+            case "Cargo_Pink":
+                cargoId = 5;
+                break;
+            case "Cargo_Grey":
+                cargoId = 6;
+                break;
+            case "Cargo_Cyan":
+                cargoId = 7;
+                break;
+            case "Cargo_Orange":
+                cargoId = 8;
+                break;
+            case "Cargo_Olive":
+                cargoId = 9;
+                break;
             default:
                 cargoId = -1;
                 break;

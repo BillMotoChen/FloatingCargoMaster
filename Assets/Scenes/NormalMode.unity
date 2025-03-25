@@ -169,6 +169,11 @@ MonoBehaviour:
   - {fileID: 4701589506583373199, guid: da29a7a00fd36497fa7f797a79804566, type: 3}
   - {fileID: 4562675607229761869, guid: 62546df75d4c24a77bcd34919db0f3ce, type: 3}
   - {fileID: 18940032712857203, guid: 983f7f471260a4edd9213b7bc96a2983, type: 3}
+  - {fileID: 4562675607229761869, guid: 4ec3616584aaa46a5bdc0902d84d13ac, type: 3}
+  - {fileID: 4425642342468111287, guid: 0922193041e2a4fa5ad5d3f96967ca87, type: 3}
+  - {fileID: 4425642342468111287, guid: f91f81ed259324d37b1bbca5265d0e59, type: 3}
+  - {fileID: 4701589506583373199, guid: 915462eba975f450d821d3eb39d0338d, type: 3}
+  - {fileID: 4701589506583373199, guid: 3ac163d049f6f43f7b509c770cb3f4fe, type: 3}
   requiredMatchesArea: {fileID: 1024484623}
   normalModeGameManager: {fileID: 183369655}
 --- !u!1001 &28978610
@@ -1886,6 +1891,11 @@ MonoBehaviour:
   - {fileID: 4701589506583373199, guid: d194ec1d0c1064d8db49c4f43edb2e58, type: 3}
   - {fileID: 4562675607229761869, guid: 99e5c681f37984808b864c06ff193871, type: 3}
   - {fileID: 18940032712857203, guid: 3b91c1e059c53482f833c4b01d24c895, type: 3}
+  - {fileID: 6132731090967861287, guid: e960c10fa9bc048469b284fc1095bfed, type: 3}
+  - {fileID: 4425642342468111287, guid: 32493a5fe70374428965c797a41fef5f, type: 3}
+  - {fileID: 4425642342468111287, guid: a523a142e132042618f339d4ed61d60e, type: 3}
+  - {fileID: 6132731090967861287, guid: 3cf8eb9aabeee433a8322d42556d4c29, type: 3}
+  - {fileID: 6132731090967861287, guid: e891de396691640a080d813f08d6ed62, type: 3}
   boardContainer: {fileID: 1217635098}
   cargos: []
   cargoMovers: []
@@ -7837,6 +7847,11 @@ MonoBehaviour:
   - {fileID: 4701589506583373199, guid: d194ec1d0c1064d8db49c4f43edb2e58, type: 3}
   - {fileID: 4562675607229761869, guid: 99e5c681f37984808b864c06ff193871, type: 3}
   - {fileID: 18940032712857203, guid: 3b91c1e059c53482f833c4b01d24c895, type: 3}
+  - {fileID: 6132731090967861287, guid: e960c10fa9bc048469b284fc1095bfed, type: 3}
+  - {fileID: 4425642342468111287, guid: 32493a5fe70374428965c797a41fef5f, type: 3}
+  - {fileID: 4425642342468111287, guid: a523a142e132042618f339d4ed61d60e, type: 3}
+  - {fileID: 6132731090967861287, guid: 3cf8eb9aabeee433a8322d42556d4c29, type: 3}
+  - {fileID: 6132731090967861287, guid: e891de396691640a080d813f08d6ed62, type: 3}
   normalModeGameManager: {fileID: 183369655}
 --- !u!1 &1632852637
 GameObject:
