@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 [DefaultExecutionOrder(-99)]
 public class StorageManager : MonoBehaviour
 {
+    public static StorageManager Instance;
+
     public GameObject storage;
     public GameObject slotPrefab;
     public GameObject lockedSlotPrefab;
@@ -24,6 +26,10 @@ public class StorageManager : MonoBehaviour
     public delegate void NormalMatchHandler(int id);
     public static event NormalMatchHandler OnNormalCargoMatch;
 
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
@@ -88,7 +94,6 @@ public class StorageManager : MonoBehaviour
 
         if (await IsAMatch(cargo.cargoId))
         {
-            Debug.Log($"✅ Match Found! Removing all instances of {cargo.cargoId}.");
             OnNormalCargoMatch?.Invoke(cargo.cargoId);
             return;
         }

@@ -12,6 +12,7 @@ public class BoardManager : MonoBehaviour
     public GameObject gridPrefab; // GridCell 的 prefab
     public GameObject exporterPrefab; // 出貨口的 prefab
     public GameObject[] cargoPrefabs;
+    public GameObject[] specialCargoPrefabs;
 
     public Transform boardContainer; // 存放 board 的父物件
     public GridCell[,] gridCells; // 存放所有的格子
@@ -19,6 +20,7 @@ public class BoardManager : MonoBehaviour
     public List<CargoBase> cargos = new List<CargoBase>();
     public List<CargoMover> cargoMovers = new List<CargoMover>(); // 存放所有貨物的移動腳本
     public bool isMoving { get; private set; } = false;
+    public int stopRotate;
 
     public PathData pathData;
 
@@ -51,11 +53,13 @@ public class BoardManager : MonoBehaviour
     private void OnEnable()
     {
         NormalCargo.OnNormalCargoClicked += HandleMoveAllCargos;
+        SpecialCargo.OnSpecialCargoClicked += HandleSpecialCargoClick;
     }
 
     private void OnDisable()
     {
         NormalCargo.OnNormalCargoClicked -= HandleMoveAllCargos;
+        SpecialCargo.OnSpecialCargoClicked -= HandleSpecialCargoClick;
     }
 
     private void LevelVariablesInit()
@@ -64,6 +68,7 @@ public class BoardManager : MonoBehaviour
         currentLevel = LevelLoader.Instance.GetCurrentLevel();
         width = currentLevel.boardWidth;
         height = currentLevel.boardHeight;
+        stopRotate = 0;
     }
 
     private void Update()
@@ -160,8 +165,23 @@ public class BoardManager : MonoBehaviour
         isMoving = true;
     }
 
+    private void HandleSpecialCargoClick(SpecialCargo specialCargo)
+    {
+        if (specialCargo is ISpecialCargoEffect effect)
+        {
+            effect.ApplyEffect();
+            StartCoroutine(MoveAllCargos());
+        }
+    }
+
     private IEnumerator MoveAllCargos()
     {
+        if (stopRotate > 0)
+        {
+            StartCoroutine(SkipMovementWithUpdate());            
+            yield break;
+        }
+
         List<Coroutine> activeCoroutines = new List<Coroutine>();
 
         foreach (CargoBase cargo in cargos)
@@ -187,8 +207,19 @@ public class BoardManager : MonoBehaviour
 
     private IEnumerator MoveAndContinue(CargoBase cargo)
     {
-        cargo.MoveToNextPosition(); // 移動 Cargo
-        yield return new WaitForSeconds(0.1f); // 等待一點時間，確保平滑移動
+        cargo.MoveToNextPosition();
+        yield return new WaitForSeconds(0.1f);
+    }
+
+    private IEnumerator SkipMovementWithUpdate()
+    {
+        stopRotate = Mathf.Max(0, stopRotate - 1);
+
+        yield return null;
+
+        SpawnAfterMove();
+        UpdateCargoAlphaBasedOnClickability();
+        isMoving = false;
     }
 
     public void SpawnCargoAt(Vector2Int position, GameObject cargoPrefab)
@@ -226,10 +257,31 @@ public class BoardManager : MonoBehaviour
         {
             if (!gridCells[v.x, v.y].HasCargo())
             {
-                SpawnCargoAt(v, cargoPrefabs[Random.Range(0, currentLevel.color)]);
+                GameObject cargoToSpawn;
+
+                // 10% chance to spawn special cargo
+                if (currentLevel.specialCargo.Count > 0 && Random.value < 0.1f)
+                {
+                    int specialIndex = currentLevel.specialCargo[Random.Range(0, currentLevel.specialCargo.Count)];
+                    Debug.Log(stopRotate + " " + specialIndex);
+                    if(stopRotate > 0 && specialIndex == 0)
+                    {
+                        cargoToSpawn = cargoPrefabs[Random.Range(0, currentLevel.color)];
+                    }
+                    else
+                    {
+                        cargoToSpawn = specialCargoPrefabs[specialIndex];
+                    }
+                }
+                else
+                {
+                    cargoToSpawn = cargoPrefabs[Random.Range(0, currentLevel.color)];
+                }
+
+                SpawnCargoAt(v, cargoToSpawn);
             }
-        }  
-    } 
+        }
+    }
 
     private void MoveCargo(Vector2Int from, Vector2Int to)
     {

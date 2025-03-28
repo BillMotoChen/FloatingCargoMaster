@@ -74,7 +74,11 @@ public class NormalCargo : CargoBase
 
     private bool IsClickable()
     {
-        //Vector2Int belowPos = new Vector2Int(position.x, position.y - 1);
         return BoardManager.Instance.IsCargoClickable(position);
+    }
+
+    public static void TriggerNormalCargoClicked(NormalCargo cargo)
+    {
+        OnNormalCargoClicked?.Invoke(cargo);
     }
 }
