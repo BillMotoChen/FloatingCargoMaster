@@ -100,7 +100,7 @@
             "tutorial": false,
             "gameMode": 1,
             "color": 10,
-            "specialCargo": [ ],
+            "specialCargo": [ 0 ],
             "requiredSets": [ 0, 0, 0, 0, 0, 2, 2, 2, 2, 2 ],
             "cycleId": "4x3_2",
             "coinGained": 10

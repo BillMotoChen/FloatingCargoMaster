@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface ICargoEffect
+public interface ISpecialCargoEffect
 {
     void ApplyEffect();
 }

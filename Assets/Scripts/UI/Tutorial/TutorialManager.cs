@@ -47,11 +47,25 @@ public class TutorialManager : MonoBehaviour
     private void InitTutorials()
     {
         int currentLevel = PlayerData.stage; // Get current level
-        
+
         // Convert list to dictionary for quick lookup
         foreach (var tutorial in tutorials)
         {
-            tutorialDictionary[tutorial.level] = tutorial;
+            if (tutorial.level == currentLevel)
+            {
+                tutorialDictionary[tutorial.level] = tutorial;
+            }
+            else
+            {
+                // ✅ Destroy all tutorial GameObjects not for this level
+                foreach (GameObject step in tutorial.steps)
+                {
+                    if (step != null)
+                    {
+                        Destroy(step);
+                    }
+                }
+            }
         }
 
         // Check if there's a tutorial for this level

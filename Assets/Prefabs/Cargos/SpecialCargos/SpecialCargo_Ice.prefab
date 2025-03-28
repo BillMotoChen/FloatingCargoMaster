@@ -12,10 +12,9 @@ GameObject:
   - component: {fileID: 5749819927161498751}
   - component: {fileID: 6775244561680859427}
   - component: {fileID: 1993899515939993876}
-  - component: {fileID: -130157824463698565}
-  - component: {fileID: 8574163286071200929}
+  - component: {fileID: 1013117277122451126}
   m_Layer: 0
-  m_Name: SpecialCargo_Random
+  m_Name: SpecialCargo_Ice
   m_TagString: Cargo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59,7 +58,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 96298bfb4174d4bfbb65e168a3b34a07, type: 2}
+  - {fileID: 2100000, guid: 766a9d59232414efb8b96d17aaa7f1fc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -79,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 100
+  m_SortingOrder: 10000
   m_Sprite: {fileID: 21300000, guid: 67d186daf11784a21a5460ed78d72032, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -152,7 +151,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4425642342468111287}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -171,7 +170,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &-130157824463698565
+--- !u!114 &1013117277122451126
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -180,20 +179,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 4425642342468111287}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 952859b7fe4814cc6bea42d55209f023, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minHorizontalSpeed: 0.5
-  maxHorizontalSpeed: 3
---- !u!114 &8574163286071200929
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4425642342468111287}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd5a6c91c1e2146aca43fd0badf815bf, type: 3}
+  m_Script: {fileID: 11500000, guid: 537407f99f9d942cca498482277e1f5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
