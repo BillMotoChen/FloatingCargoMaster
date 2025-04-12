@@ -22,6 +22,10 @@ public class BoardManager : MonoBehaviour
     public bool isMoving { get; private set; } = false;
     public int stopRotate;
 
+    // item
+    public bool itemInUsed = false;
+    public bool isFreeClickEnabled = false;
+
     public PathData pathData;
 
     public float marginRatio = 0.05f; // Board 與螢幕邊緣的空白比例 (5%)
@@ -365,6 +369,7 @@ public class BoardManager : MonoBehaviour
 
     public void UpdateCargoAlphaBasedOnClickability()
     {
+        ToggleAfterFreeClickUsed();
         foreach (CargoBase cargo in cargos)
         {
             if (cargo == null) continue;
@@ -395,5 +400,42 @@ public class BoardManager : MonoBehaviour
     public void CleanupCargos()
     {
         cargos = cargos.Where(cargo => cargo != null).ToList();
+    }
+
+    // ITEM
+
+    public void EnableFreeClick()
+    {
+        isFreeClickEnabled = true;
+        foreach (CargoBase cargo in cargos)
+        {
+            if (cargo == null) continue;
+
+            // ✅ 允許點擊
+            Collider2D collider = cargo.GetComponent<Collider2D>();
+            if (collider != null)
+            {
+                collider.enabled = true;
+            }
+
+            SpriteRenderer renderer = cargo.GetComponent<SpriteRenderer>();
+            if (renderer != null)
+            {
+                Color color = renderer.color;
+                color.a = 1f;
+                renderer.color = color;
+            }
+
+            // ✅ scale 調整為 (0.2, 0.2, 0.2)
+            cargo.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+        }
+
+        Debug.Log("🟢 Free Click Mode Enabled!");
+    }
+
+    private void ToggleAfterFreeClickUsed()
+    {
+        isFreeClickEnabled = false;
+        itemInUsed = false;
     }
 }

@@ -17,12 +17,16 @@ public class PlayerData : MonoBehaviour
     public static int coin = 0;
     public static int slotNum = 5;
 
+    // player data
+    public static int[] itemHold = new int[] { 3, 3, 3, 3 };
+
 
     // saved data
     // saved stage data
     public int stageSaved = 1;
     public int coinSaved = 0;
     public int slotNumSaved = 5;
+    public int[] itemHoldSaved = new int[] { 3, 3, 3, 3 };
 
     void Awake()
     {
@@ -47,6 +51,7 @@ public class PlayerData : MonoBehaviour
         stage = 1;
         coin = 0;
         slotNum = 5;
+        itemHold = new int[] { 3, 3, 3, 3 };
         SaveData();
         LoadData();
     }
@@ -58,6 +63,7 @@ public class PlayerData : MonoBehaviour
         coinSaved = coin;
         stageSaved = stage;
         slotNumSaved = slotNum;
+        itemHoldSaved = itemHold.ToArray();
 
         string jsonData = JsonUtility.ToJson(this);
 
@@ -94,6 +100,7 @@ public class PlayerData : MonoBehaviour
                 coin = coinSaved;
                 stage = stageSaved;
                 slotNum = slotNumSaved;
+                itemHold = itemHoldSaved.ToArray();
             }
             catch (IOException e)
             {
