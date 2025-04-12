@@ -74,6 +74,7 @@ public class NormalCargo : CargoBase
 
     private bool IsClickable()
     {
+        if (BoardManager.Instance.isFreeClickEnabled) return true;
         return BoardManager.Instance.IsCargoClickable(position);
     }
 

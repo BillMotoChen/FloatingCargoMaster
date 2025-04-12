@@ -9,6 +9,7 @@ public class NormalModeUIManager : MonoBehaviour
     public GameObject pausePopup;
     public GameObject pauseButton;
     public GameObject coinObject;
+    public GameObject itemMenu;
 
     public GameObject board;
     public GameObject storage;
@@ -47,6 +48,7 @@ public class NormalModeUIManager : MonoBehaviour
         pauseButton.SetActive(false);
         winPopup.SetActive(true);
         HideGameObjects();
+        HideItemMenu();
         ShowCoinObject();
     }
 
@@ -56,6 +58,7 @@ public class NormalModeUIManager : MonoBehaviour
         pauseButton.SetActive(false);
         losePopup.SetActive(true);
         HideGameObjects();
+        HideItemMenu();
         ShowCoinObject();
     }
 
@@ -64,6 +67,7 @@ public class NormalModeUIManager : MonoBehaviour
         pausePopup.SetActive(true);
         pauseButton.SetActive(false);
         HideGameObjects();
+        HideItemMenu();
         ShowCoinObject();
         Time.timeScale = 0;
     }
@@ -73,6 +77,7 @@ public class NormalModeUIManager : MonoBehaviour
         pausePopup.SetActive(false);
         pauseButton.SetActive(true);
         ShowGameObjects();
+        ShowItemMenu();
         HideCoinObject();
         Debug.Log("▶️ Game Resumed");
         Time.timeScale = 1;
@@ -91,6 +96,7 @@ public class NormalModeUIManager : MonoBehaviour
         board.SetActive(false);
         storage.SetActive(false);
         levelObject.SetActive(false);
+        itemMenu.SetActive(false);
     }
 
     public void ShowGameObjects()
@@ -98,6 +104,7 @@ public class NormalModeUIManager : MonoBehaviour
         board.SetActive(true);
         storage.SetActive(true);
         levelObject.SetActive(true);
+        itemMenu.SetActive(true);
     }
 
     public void ReplayNormalMode()
@@ -156,6 +163,16 @@ public class NormalModeUIManager : MonoBehaviour
     private void HideCoinObject()
     {
         coinObject.SetActive(false);
+    }
+
+    private void ShowItemMenu()
+    {
+        itemMenu.SetActive(true);
+    }
+
+    private void HideItemMenu()
+    {
+        itemMenu.SetActive(false);
     }
 
 
