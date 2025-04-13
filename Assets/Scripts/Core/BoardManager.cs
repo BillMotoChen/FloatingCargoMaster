@@ -25,6 +25,7 @@ public class BoardManager : MonoBehaviour
     // item
     public bool itemInUsed = false;
     public bool isFreeClickEnabled = false;
+    public int specialCargoNum = 0;
 
     public PathData pathData;
 
@@ -264,10 +265,9 @@ public class BoardManager : MonoBehaviour
                 GameObject cargoToSpawn;
 
                 // 10% chance to spawn special cargo
-                if (currentLevel.specialCargo.Count > 0 && Random.value < 0.1f)
+                if (currentLevel.specialCargo.Count > 0 && Random.value < currentLevel.specialCargoRate && specialCargoNum <= currentLevel.specialCargoMax)
                 {
                     int specialIndex = currentLevel.specialCargo[Random.Range(0, currentLevel.specialCargo.Count)];
-                    Debug.Log(stopRotate + " " + specialIndex);
                     if(stopRotate > 0 && specialIndex == 0)
                     {
                         cargoToSpawn = cargoPrefabs[Random.Range(0, currentLevel.color)];
@@ -275,6 +275,7 @@ public class BoardManager : MonoBehaviour
                     else
                     {
                         cargoToSpawn = specialCargoPrefabs[specialIndex];
+                        SpecialCargoCount(1);
                     }
                 }
                 else
@@ -437,5 +438,10 @@ public class BoardManager : MonoBehaviour
     {
         isFreeClickEnabled = false;
         itemInUsed = false;
+    }
+
+    public void SpecialCargoCount(int i)
+    {
+        specialCargoNum += i;
     }
 }

@@ -77,7 +77,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Alpha: 1
-    - _AlphaCutoffValue: 0.25
+    - _AlphaCutoffValue: 0
     - _AlphaOutlineBlend: 0.201
     - _AlphaOutlineGlow: 5
     - _AlphaOutlineMinAlpha: 0
@@ -125,7 +125,7 @@ Material:
     - _GlitchSize: 1
     - _Glow: 10
     - _GlowGlobal: 1
-    - _GradBlend: 0.71
+    - _GradBlend: 0.8
     - _GradBoostX: 1
     - _GradBoostY: 1
     - _GradIsRadial: 0
@@ -198,10 +198,10 @@ Material:
     - _ShakeUvSpeed: 2.5
     - _ShakeUvX: 1.5
     - _ShakeUvY: 1
-    - _ShineGlow: 1
-    - _ShineLocation: 0.5
+    - _ShineGlow: 8
+    - _ShineLocation: 0.35
     - _ShineRotate: 0
-    - _ShineWidth: 0.1
+    - _ShineWidth: 0.05
     - _TextureScrollXSpeed: 1
     - _TextureScrollYSpeed: 0
     - _TwistUvAmount: 1
@@ -211,10 +211,10 @@ Material:
     - _WarpScale: 0.5
     - _WarpSpeed: 8
     - _WarpStrength: 0.025
-    - _WaveAmount: 12
-    - _WaveSpeed: 6
+    - _WaveAmount: 17
+    - _WaveSpeed: 11.4
     - _WaveStrength: 15.5
-    - _WaveX: 0
+    - _WaveX: 0.52
     - _WaveY: 0.5
     - _ZTestMode: 4
     - _ZWrite: 0
@@ -244,6 +244,6 @@ Material:
     - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
     - _OverlayColor: {r: 1, g: 1, b: 1, a: 1}
     - _ShadowColor: {r: 0.4433962, g: 0.4433962, b: 0.4433962, a: 1}
-    - _ShineColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ShineColor: {r: 0.1509434, g: 0.1509434, b: 0.1509434, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
