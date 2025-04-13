@@ -22,4 +22,6 @@ public class LevelData
     public List<int> requiredSets;
     public string cycleId;
     public int coinGained;
+    public float specialCargoRate;
+    public int specialCargoMax;
 }

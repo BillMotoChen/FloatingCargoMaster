@@ -27,7 +27,7 @@ public class SpecialCargo : CargoBase
     {
         if (!IsClickable()) return;
         OnSpecialCargoClicked?.Invoke(this);
-
+        boardManager.SpecialCargoCount(-1);
         Destroy(gameObject);
     }
 
