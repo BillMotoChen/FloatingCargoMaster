@@ -9,6 +9,8 @@ public class SpecialCargo : CargoBase
     public delegate void SpecialCargoClickedHandler(SpecialCargo specialCargo);
     public static event SpecialCargoClickedHandler OnSpecialCargoClicked;
 
+    public virtual bool OverrideClickability => false;
+
     protected virtual void Awake()
     {
         boardManager = BoardManager.Instance;
@@ -25,13 +27,16 @@ public class SpecialCargo : CargoBase
 
     private void OnMouseDown()
     {
+        if (BoardManager.Instance.isMoving || !StorageManager.Instance.clickable) return;
         if (!IsClickable()) return;
+
+
         OnSpecialCargoClicked?.Invoke(this);
         boardManager.SpecialCargoCount(-1);
         Destroy(gameObject);
     }
 
-    private bool IsClickable()
+    protected virtual bool IsClickable()
     {
         if (BoardManager.Instance.isFreeClickEnabled) return true;
         return BoardManager.Instance.IsCargoClickable(position);

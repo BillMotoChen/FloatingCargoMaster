@@ -24,6 +24,7 @@ public class NormalCargo : CargoBase
 
     private void OnMouseDown()
     {
+        if (BoardManager.Instance.isMoving || !StorageManager.Instance.clickable) return;
         if (!IsClickable()) return;
 
         OnNormalCargoClicked?.Invoke(this);

@@ -179,7 +179,7 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-    private IEnumerator MoveAllCargos()
+    private IEnumerator MoveAllCargos(bool multi = false)
     {
         if (stopRotate > 0)
         {
@@ -206,7 +206,11 @@ public class BoardManager : MonoBehaviour
 
         // all movement coroutines are done, spawn after move
         isMoving = false;
-        SpawnAfterMove();
+        if (!multi)
+        {
+            SpawnAfterMove();
+        }
+        
         UpdateCargoAlphaBasedOnClickability();
     }
 
@@ -357,6 +361,15 @@ public class BoardManager : MonoBehaviour
 
     public bool IsCargoClickable(Vector2Int currentPos)
     {
+        var cargo = gridCells[currentPos.x, currentPos.y].cargo;
+        if (cargo != null)
+        {
+            if (cargo is SpecialCargo sc && sc.OverrideClickability)
+            {
+                return true;
+            }
+        }
+
         for (int y = currentPos.y - 1; y >= 0; y--)
         {
             Vector2Int belowPos = new Vector2Int(currentPos.x, y);
@@ -443,5 +456,64 @@ public class BoardManager : MonoBehaviour
     public void SpecialCargoCount(int i)
     {
         specialCargoNum += i;
+    }
+
+    public void RainbowClick()
+    {
+        int maxColor = currentLevel.color;
+
+        // Create a copy of the current cargos list to avoid modifying during iteration
+        List<CargoBase> cargosCopy = new List<CargoBase>(cargos);
+
+        foreach (CargoBase cargo in cargosCopy)
+        {
+            if (cargo == null) continue;
+
+            // Skip special cargos
+            if (!(cargo is NormalCargo normalCargo)) continue;
+
+            Vector2Int pos = normalCargo.position;
+
+            // Randomize new color index
+            int newColorId = Random.Range(0, maxColor);
+
+            // Clear cargo from grid and original list
+            gridCells[pos.x, pos.y].ClearCargo();
+            cargos.Remove(normalCargo);
+            Destroy(normalCargo.gameObject);
+
+            // Spawn new cargo
+            GameObject newCargoObj = Instantiate(cargoPrefabs[newColorId], gridCells[pos.x, pos.y].cellObject.transform);
+            newCargoObj.transform.position = GetGridWorldPosition(pos);
+
+            NormalCargo newCargo = newCargoObj.GetComponent<NormalCargo>();
+            if (newCargo != null)
+            {
+                newCargo.Initialize(pos);
+                cargos.Add(newCargo);
+            }
+
+            gridCells[pos.x, pos.y].SetCargo(newCargoObj.GetComponent<CargoBase>());
+        }
+
+        CleanupCargos(); 
+        UpdateCargoAlphaBasedOnClickability();
+    }
+
+    public IEnumerator RotateMultipleTimes(int times)
+    {
+        isMoving = true;
+        StorageManager.Instance.clickable = false;
+
+        for (int i = 0; i < times; i++)
+        {
+            yield return StartCoroutine(MoveAllCargos(true));
+            yield return new WaitForSeconds(0.15f);
+        }
+
+        isMoving = false;
+        StorageManager.Instance.clickable = true;
+        SpawnAfterMove();
+        UpdateCargoAlphaBasedOnClickability();
     }
 }

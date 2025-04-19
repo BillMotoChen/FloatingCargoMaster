@@ -19,7 +19,7 @@ public class StorageManager : MonoBehaviour
     private int[] cargosInSlots;
     private int availableStorageNum;
 
-    private bool clickable;
+    public bool clickable;
 
     public NormalModeGameManager normalModeGameManager;
 
