@@ -254,6 +254,176 @@
             "coinGained": 20,
             "specialCargoRate": 0.5,
             "specialCargoMax": 4
+        },
+        {
+            "level": 16,
+            "boardWidth": 5,
+            "boardHeight": 4,
+            "exporters": [
+                { "cor": { "x": 0, "y": 2 } },
+                { "cor": { "x": 3, "y": 2 } }            ],
+            "tutorial": false,
+            "gameMode": 1,
+            "color": 6,
+            "specialCargo": [ 1 ],
+            "requiredSets": [ 2, 2, 2, 0, 2, 2 ],
+            "cycleId": "5x4_1",
+            "coinGained": 10,
+            "specialCargoRate": 0.5,
+            "specialCargoMax": 4
+        },
+        {
+            "level": 17,
+            "boardWidth": 5,
+            "boardHeight": 4,
+            "exporters": [
+                { "cor": { "x": 0, "y": 2 } },
+                { "cor": { "x": 3, "y": 2 } }            ],
+            "tutorial": false,
+            "gameMode": 1,
+            "color": 6,
+            "specialCargo": [ 1 ],
+            "requiredSets": [ 2, 2, 2, 0, 2, 2 ],
+            "cycleId": "5x4_1",
+            "coinGained": 10,
+            "specialCargoRate": 0.5,
+            "specialCargoMax": 4
+        },
+        {
+            "level": 18,
+            "boardWidth": 5,
+            "boardHeight": 4,
+            "exporters": [
+                { "cor": { "x": 0, "y": 2 } },
+                { "cor": { "x": 3, "y": 2 } }            ],
+            "tutorial": false,
+            "gameMode": 1,
+            "color": 6,
+            "specialCargo": [ 1 ],
+            "requiredSets": [ 2, 2, 2, 0, 2, 2 ],
+            "cycleId": "5x4_1",
+            "coinGained": 20,
+            "specialCargoRate": 0.5,
+            "specialCargoMax": 4
+        },
+        {
+            "level": 19,
+            "boardWidth": 5,
+            "boardHeight": 4,
+            "exporters": [
+                { "cor": { "x": 0, "y": 2 } },
+                { "cor": { "x": 3, "y": 2 } }            ],
+            "tutorial": false,
+            "gameMode": 1,
+            "color": 6,
+            "specialCargo": [ 0, 1 ],
+            "requiredSets": [ 2, 2, 2, 0, 2, 2 ],
+            "cycleId": "5x4_1",
+            "coinGained": 10,
+            "specialCargoRate": 0.5,
+            "specialCargoMax": 4
+        },
+        {
+            "level": 20,
+            "boardWidth": 7,
+            "boardHeight": 5,
+            "exporters": [
+                { "cor": { "x": 0, "y": 2 } },
+                { "cor": { "x": 3, "y": 2 } }            ],
+            "tutorial": false,
+            "gameMode": 1,
+            "color": 6,
+            "specialCargo": [ 0, 1 ],
+            "requiredSets": [ 2, 2, 2, 0, 2, 2 ],
+            "cycleId": "5x4_1",
+            "coinGained": 20,
+            "specialCargoRate": 0.5,
+            "specialCargoMax": 4
+        },
+        {
+            "level": 21,
+            "boardWidth": 7,
+            "boardHeight": 5,
+            "exporters": [
+                { "cor": { "x": 0, "y": 2 } },
+                { "cor": { "x": 3, "y": 2 } }            ],
+            "tutorial": false,
+            "gameMode": 1,
+            "color": 6,
+            "specialCargo": [ 0, 1 ],
+            "requiredSets": [ 2, 2, 2, 0, 2, 2 ],
+            "cycleId": "5x4_1",
+            "coinGained": 20,
+            "specialCargoRate": 0.5,
+            "specialCargoMax": 4
+        },
+        {
+            "level": 22,
+            "boardWidth": 7,
+            "boardHeight": 5,
+            "exporters": [
+                { "cor": { "x": 0, "y": 2 } },
+                { "cor": { "x": 3, "y": 2 } }            ],
+            "tutorial": false,
+            "gameMode": 1,
+            "color": 6,
+            "specialCargo": [ 0, 1 ],
+            "requiredSets": [ 2, 2, 2, 0, 2, 2 ],
+            "cycleId": "5x4_1",
+            "coinGained": 20,
+            "specialCargoRate": 0.5,
+            "specialCargoMax": 4
+        },
+        {
+            "level": 23,
+            "boardWidth": 7,
+            "boardHeight": 5,
+            "exporters": [
+                { "cor": { "x": 0, "y": 2 } },
+                { "cor": { "x": 3, "y": 2 } }            ],
+            "tutorial": false,
+            "gameMode": 1,
+            "color": 6,
+            "specialCargo": [ 0, 1 ],
+            "requiredSets": [ 2, 2, 2, 0, 2, 2 ],
+            "cycleId": "5x4_1",
+            "coinGained": 20,
+            "specialCargoRate": 0.5,
+            "specialCargoMax": 4
+        },
+        {
+            "level": 24,
+            "boardWidth": 7,
+            "boardHeight": 5,
+            "exporters": [
+                { "cor": { "x": 0, "y": 2 } },
+                { "cor": { "x": 3, "y": 2 } }            ],
+            "tutorial": false,
+            "gameMode": 1,
+            "color": 6,
+            "specialCargo": [ 0, 1 ],
+            "requiredSets": [ 2, 2, 2, 0, 2, 2 ],
+            "cycleId": "5x4_1",
+            "coinGained": 20,
+            "specialCargoRate": 0.5,
+            "specialCargoMax": 4
+        },
+        {
+            "level": 25,
+            "boardWidth": 7,
+            "boardHeight": 5,
+            "exporters": [
+                { "cor": { "x": 0, "y": 2 } },
+                { "cor": { "x": 3, "y": 2 } }            ],
+            "tutorial": false,
+            "gameMode": 1,
+            "color": 6,
+            "specialCargo": [ 2 ],
+            "requiredSets": [ 2, 2, 2, 0, 2, 2 ],
+            "cycleId": "5x4_1",
+            "coinGained": 20,
+            "specialCargoRate": 0.5,
+            "specialCargoMax": 4
         }
     ]
 }
