@@ -32,6 +32,7 @@ public class SpecialCargo : CargoBase
 
 
         OnSpecialCargoClicked?.Invoke(this);
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.specialCargoClicked);
         boardManager.SpecialCargoCount(-1);
         Destroy(gameObject);
     }

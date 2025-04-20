@@ -11,6 +11,7 @@ public class NormalModeGameManager : MonoBehaviour
     {
         PlayerData.stage += 1;
         PlayerData.instance.SaveData();
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.levelCleared);
         OnGameCleared?.Invoke();
     }
 
@@ -18,6 +19,7 @@ public class NormalModeGameManager : MonoBehaviour
     public void GameFailed()
     {
         OnGameFailed?.Invoke();
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.levelFailed);
     }
 
 }
