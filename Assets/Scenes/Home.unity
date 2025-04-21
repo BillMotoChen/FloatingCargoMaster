@@ -870,6 +870,7 @@ MonoBehaviour:
   stageSaved: 1
   coinSaved: 0
   slotNumSaved: 5
+  itemHoldSaved: 03000000030000000300000003000000
 --- !u!4 &1657693661
 Transform:
   m_ObjectHideFlags: 0

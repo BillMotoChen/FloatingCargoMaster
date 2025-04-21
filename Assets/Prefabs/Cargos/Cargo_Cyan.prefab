@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6775244561680859427}
   - component: {fileID: 1993899515939993876}
   - component: {fileID: 4792965648310131285}
+  - component: {fileID: -845082918891436090}
   m_Layer: 0
   m_Name: Cargo_Cyan
   m_TagString: Cargo
@@ -184,3 +185,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   position: {x: 0, y: 0}
   cargoId: 0
+--- !u!95 &-845082918891436090
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4425642342468111287}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5fbbe49ee16f74b31b8735afe4e4b437, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

@@ -28,6 +28,7 @@ public class NormalCargo : CargoBase
         if (!IsClickable()) return;
 
         OnNormalCargoClicked?.Invoke(this);
+        AudioManager.Instance.PlaySFX(AudioManager.Instance.cargoClicked);
         Destroy(gameObject);
     }
 

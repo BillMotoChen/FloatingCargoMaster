@@ -95,6 +95,7 @@ public class StorageManager : MonoBehaviour
         if (await IsAMatch(cargo.cargoId))
         {
             OnNormalCargoMatch?.Invoke(cargo.cargoId);
+            AudioManager.Instance.PlaySFX(AudioManager.Instance.matchSound);
             return;
         }
 
